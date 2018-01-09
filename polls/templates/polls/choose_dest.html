@@ -1,0 +1,34 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+<div>
+{% if sc_list %}
+<div class="col-sm-12">
+	<h3 style="text-align: center">
+		Choose which scenario you want to go to.
+	</h3>
+	<p>
+		Path : {{ path.input_text }}
+	</p>
+</div>
+<div>
+	<div class="col-sm-4">
+		<ul>
+			{% for item in sc_list %}
+			<li>
+				<a href="{% url 'polls:mk_2' 3 sc_f.id path.id item.id %}">{{ item.scenario_text }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+{% else %}
+<div class="col-sm-12">
+	<h3 style="text-align: center">
+		No scenarios available.
+	</h3>
+</div>
+{% endif %}
+</div>
+{% endblock %}

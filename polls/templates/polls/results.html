@@ -1,0 +1,22 @@
+{% extends "polls/base.html" %}
+{% block content %}
+{% if question.choice_set.all %}
+	
+	<h3>
+		Current Voting Results :
+	</h3>
+	<ul>
+		{% for choice in question.choice_set.all %}
+		<li>{{choice.choice_text}} : {{choice.votes}} votes </li>
+		{%endfor%}
+	</ul>
+{% else %}
+	<h3>
+		No choices available for this question yet.
+	</h3>
+{% endif %}
+
+<a href = "{% url 'polls:detail' question.id %}">Click here to Vote again.</a> <br>
+<a href = "{% url 'polls:index' %}">Click here to go back to Home.</a>
+
+{% endblock %}

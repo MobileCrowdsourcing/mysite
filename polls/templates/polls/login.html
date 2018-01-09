@@ -1,0 +1,70 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+<div class="row">
+
+<div class="col-sm-1">
+    
+</div>
+<div id="logincolor" class="col-sm-10">
+<div class="row">
+    {% if error_message %}
+    <script type="text/javascript">
+        alert('{{error_message}}');
+    </script>
+    <p style="text-align: center; padding-top:20px; color:red"><strong>
+        {{ error_message }}
+    </strong>
+    </p>
+    {% endif %}
+    
+</div>
+
+
+<div class="row">
+    <div class="col-sm-4">
+        
+    </div>
+
+    <div class="col-sm-4">
+        <h2 style="text-align: center">
+            <strong>Log in</strong> 
+        </h2>
+    </div>
+    <div class="col-sm-4">
+        
+    </div>
+</div>
+
+
+
+<div style="padding-top: 30px">
+    <div class="col-sm-4">
+    </div>
+    <div class = "col-sm-4" style="padding-left: 70px">
+    <form method="POST" action="{% url 'login_user' %}">
+        {% csrf_token %}
+        <p>
+            <label>Username</label>
+            <input type="text" name="username">
+        </p>
+        <p>
+            <label>Password</label>
+            <input type="password" name="password">
+        </p>
+        <button type="submit" style="margin-left:70px">Login</button>
+    </form>
+    </div>
+
+    <div class="col-sm-4">
+    </div>
+</div>
+
+
+
+</div>
+<div class="col-sm-1">
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+<div class="col-sm-12">
+	<h3 style="text-align: center">
+		<i>{{ scenario.scenario_text  }}</i>
+	</h3>
+	<p >
+		<font color="#7b7e84">Here you can add a path branching from this scene. You can also see the existing paths added by others on this page.
+		If you want to stop adding, and want to connect this scene to another one, <a href='#'>click here.</a></font>
+	</p>
+</div>
+<div class="col-sm-12" style="margin-top:20px">
+
+	<div class="col-sm-6">
+		<div>
+			<h3>
+				Make your own path.
+			</h3>
+			<form action="{% url 'polls:create_path' scenario.id %}" method="POST" id="path_form">
+				{% csrf_token %}
+				Write a story and click on submit.
+				<input type="submit" value="Submit">
+			</form>
+			<br>
+			<textarea name="path" rows="4" cols="60" form="path_form">Enter your Story here..</textarea>
+		</div>
+		<div>
+			<a href="#">Click here to edit existing stories or make connections between stories.</a>
+		</div>
+	</div>
+
+	<div class="col-sm-6">
+		<div>
+			{% if path_list %}
+			<div>
+				<h2>
+					Already written paths for this segment:
+				</h2>
+				<ul>
+					{% for item in path_list %}
+					<li>{{ item.input_text }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% else %}
+			<div>
+				<h2>
+					No paths present. You can write one of your own.
+				</h2>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+
+</div>
+{% endblock %}

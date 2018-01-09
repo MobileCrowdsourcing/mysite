@@ -1,0 +1,37 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+<div>
+	{% if sc_list %}
+	<div class="col-sm-12" style="padding-top:20px">
+		<font color="#7b7e84">
+			<p>
+				This section shows you the 'open' scenarios available right now. You can add paths to these scenarios, or make a scenario of your own. 
+				If you want to work on images, <a href='#'>click here.</a>
+				You can also join story elements by <a href="{% url 'polls:make_link' 0 %}">clicking here.</a>
+			</p>
+		</font>
+	</div>
+	<div class="col-sm-6">
+		<h2 style="padding-left:30px">
+			Open Scenarios
+		</h2>
+		<div>
+			<ul>
+			{% for item in sc_list %}
+			<li><a href="{% url 'polls:make_scenario' item.id %}">{{ item.scenario_text }}</a></li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+	{% else %}
+	<div class="col-sm-10">
+		<h2 style="padding-left:30px">
+			No scenarios open right now.
+		</h2>
+	</div>
+	{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <link href="{% static 'polls/bower_components/bootstrap/dist/css/bootstrap.min.css'%}" rel="stylesheet">
+            <link href="{% static 'polls/bower_components/bootstrap/dist/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+           <link href="{% static 'polls/bower_components/bootstrap/dist/css/bootstrap-theme.min.css' %}"  rel="stylesheet">
+            <link href="{% static 'polls/bower_components/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+            <link href="{% static 'polls/bower_components/css/bootstrap-social.css' %}" rel="stylesheet">
+            <link href="{% static 'polls/bower_components/css/mystyles.css' %}" rel="stylesheet">
+            <link href="{% static 'polls/bower_components/bootstrap/dist/css/bootstrap-theme.css' %}" rel="stylesheet">
+            <link href="{% static 'polls/bower_components/css/mystyles.css' %}" >
+            {# <link type="text/css" rel="stylesheet" href="{{ url_for('static/polls', filename='style.css')}}"> #}
+            {# <link href="{{url_for('templates', filename='bower_components/font-awesome/fonts/FontAwesome.otf')}}"> #}
+            <link  href='https://fonts.googleapis.com/css?family=Sofia' rel ='stylesheet'>
+            <link  href='https://fonts.googleapis.com/css?family=Bowlby+One+SC' rel ='stylesheet'>
+            <link  href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel ='stylesheet'>
+            <link  href='https://fonts.googleapis.com/css?family=Dosis' rel ='stylesheet'>
+             <link  href='https://fonts.googleapis.com/css?family=Dancing+Script' rel ='stylesheet'>
+             <link href="{% static 'polls/my_styles.css' %}" type="text/css" rel="stylesheet">
+    <script type="text/javascript">
+        function ShowAlert()
+        {
+            alert("Confirm Logout..");
+        }
+    </script>
+</head>
+
+<body>
+<div class="row">
+
+
+
+    <div class="col-sm-12">
+        <nav class="nav nav-fixed top" position="fixed" >
+                    <ul class="nav nav-tabs nav-inverse nav-justified" style="font-size:14px;font-style:Comic; background-color:#ffffff">
+                        
+                       
+                        <li><a href="{% url 'polls:index' %}" style="padding-top:10px">polls</a></li>
+                        <li><a href="{% url 'polls:scenarios' %}" style="padding:top:10px">Scenarios</a></li>
+                        <li><a href="{% url 'polls:index' %}" style="padding-top:10px">index</a></li>
+                        {% if user_log %}
+                        <li><a href="{% url 'logout_user' %}" style="padding-top:10px" onclick="ShowAlert()">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'login_user' %}" style="padding-top:10px">Login</a></li>
+                        {% endif %}
+                        
+                    </ul>
+            </nav>
+    </div>
+
+    
+    
+
+{% block content %}
+{% endblock %}
+</div>
+</body>
+
+</html>
