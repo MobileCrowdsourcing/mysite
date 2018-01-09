@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from .models import Question, Choice, Scenario, Text_Input, Link
+from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -265,3 +265,63 @@ def make_link(request, flag=0, sc_id=None, path_id=None, sc_t_id=None):
 		link = Link(scenario_from=sc_f, scenario_to=sc_t, link_path=path, popularity=1)
 		link.save()
 		return HttpResponseRedirect(reverse('polls:index'))
+
+
+def link_images(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	if request.method == 'GET':
+		images = ImageScenario.objects.all()
+		image_count = len(images)
+		pos1 = randint(0, image_count-1)
+
+		image1 = images[pos1]
+		pos2 = pos1
+		while(pos1 == pos2):
+			pos2 = randint(0, image_count-1)
+
+		image2 = images[pos2]
+
+		# We have two images, stored in image1 and image2
+		# We now present them to the user and ask them to say if these two images can be linked together somehow
+
+		# We first check if an entry exists in our database with link from image1 to image2
+		links = ImageLink.objects.all()
+		im_link = None
+		for link in links:
+			if(link.image_from == image1 and link.image_to == image2):
+				im_link = link
+				break
+
+		if im_link == None:
+			im_link = ImageLink(image_from=image1, image_to=image2)
+
+		im_link.save()
+		return render(request, 'polls/link_image.html', {
+			'im_link': im_link,
+			'user_log': request.user.is_authenticated
+			})
+	else:
+		# For POST method
+		raise Http404("This page does not Exist")
+
+
+def update_link(request, link_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	if request.method != 'POST':
+		raise Http404("This page does not Exist")
+
+	im_link = ImageLink.objects.get(id=link_id)
