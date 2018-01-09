@@ -85,3 +85,12 @@ class Link(models.Model):
         return (str(self.scenario_from.id) + ' -- ' + str(self.link_path.id) + '-->' + str(self.scenario_to.id))
 
 
+class ImageScenario(models.Model):
+    image_url = models.TextField()
+
+
+class ImageLink(models.Model):
+    image_from = models.ForeignKey(ImageScenario, related_name='from_image', on_delete=models.CASCADE)
+    vote = models.IntegerField(default=0)
+    image_to = models.ForeignKey(ImageScenario, related_name='to_image', on_delete=models.CASCADE)
+
