@@ -10,8 +10,7 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-
+from random import *
 
 # class IndexView(generic.ListView):
 # 	template_name = 'polls/index.html'
