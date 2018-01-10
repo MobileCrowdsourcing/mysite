@@ -19,7 +19,7 @@ from polls import views
 # from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-	url(r'^$', views.index, name='home'),
+	url(r'^$', views.home_page, name='home'),
 	url(r'^polls/', include('polls.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.login_user, name='login_user'),

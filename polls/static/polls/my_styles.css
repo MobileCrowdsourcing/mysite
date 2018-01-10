@@ -3,3 +3,42 @@
 	background-color:#5089e5;
 	height:600px;
 }
+
+#indexpage
+{
+	background-color: #42f48f;
+	color:black;
+}
+#inputcolor
+{
+	color:black;
+}
+
+#heading
+{
+	font-size:30px;
+}
+#block1
+{
+	background-color:#418cf4;
+	height:600px;
+
+}
+
+#block2
+{
+background-color:#8841f4;
+	height:600px;
+}
+
+#images
+{
+	height:250px;
+	width:250px;
+}
+
+#image_to
+{
+	height:250px;
+	width:250px;
+}

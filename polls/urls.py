@@ -33,5 +33,5 @@ urlpatterns = [
     url(r'link/(?P<flag>[0-3])/(?P<sc_id>[0-9]+)/$', views.make_link, name='choose_path'),
     url(r'link/(?P<flag>[0-3])/(?P<sc_id>[0-9]+)/(?P<path_id>[0-9]+)/$', views.make_link, name='choose_dest'),
     url(r'link/(?P<flag>[0-3])/(?P<sc_id>[0-9]+)/(?P<path_id>[0-9]+)/(?P<sc_t_id>[0-9]+)$', views.make_link, name='mk_2'),
-    url(r'image_link/$',views.link_images,name='link_images'),
+    url(r'image/$',views.link_images,name='link_images'),
 ]

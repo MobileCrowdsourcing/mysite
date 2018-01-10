@@ -3,13 +3,34 @@
 {% block content %}
 
 
-<h1> Hello</h1>
+<!-- <h1> Hello</h1> -->
+<div class="row">
+<p style="padding-top:30px">
+</p>
+<br>
+<br>
+</div>
 
 
 
-<div>
+<div class="row">
+<div class="col-sm-1">
+</div>
+<div class="col-sm-4">
+	
+		<img src="{{ im_link.image_from.image_url }}" id="images">
 
-<img src="{{ im_link.image_from.image_url }}">
+</div>
+<div class="col-sm-2">
+</div>
+<div class="col-sm-4" id="image_to">
+	<img src ="{{ im_link.image_to.image_url }}" id ="images">
+</div>
+<div class="col-sm-1">
+</div>
+</div>
+
+<div class="row">
 
 </div>
 

@@ -56,6 +56,11 @@ def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
 
 
+# home page
+def home_page(request):
+	return render(request, 'polls/home.html')
+
+
 def login_user(request):
 
 	if request.method == 'POST':
