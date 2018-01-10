@@ -307,14 +307,30 @@ def link_images(request):
 			im_link = ImageLink(image_from=image1, image_to=image2)
 
 		im_link.save()
-		return render(request, 'polls/link_image.html', {
-			'im_link': im_link,
-			'user_log': request.user.is_authenticated
-			})
+		return HttpResponseRedirect(reverse('polls:vote_link', args=(im_link.id,)))
 	else:
 		# For POST method
 		raise Http404("This page does not Exist")
 
+
+def vote_link(request, im_link_id):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+	try:
+		im_link = ImageLink.objects.get(id=im_link_id)
+	except:
+		raise Http404('Page Not Found')
+	# if im_link is None:
+	return render(request, 'polls/link_image.html', {
+		'im_link': im_link,
+		'user_log': request.user.is_authenticated
+		})
+	
 
 def update_link(request, link_id=None):
 	if request.user.is_authenticated:

@@ -33,7 +33,8 @@ urlpatterns = [
     url(r'link/(?P<flag>[0-3])/(?P<sc_id>[0-9]+)/$', views.make_link, name='choose_path'),
     url(r'link/(?P<flag>[0-3])/(?P<sc_id>[0-9]+)/(?P<path_id>[0-9]+)/$', views.make_link, name='choose_dest'),
     url(r'link/(?P<flag>[0-3])/(?P<sc_id>[0-9]+)/(?P<path_id>[0-9]+)/(?P<sc_t_id>[0-9]+)$', views.make_link, name='mk_2'),
-    url(r'image/$',views.link_images,name='link_images'),
+    url(r'get_image/$',views.link_images,name='link_images'),
     url(r'update_link/(?P<link_id>[0-9]+)/$', views.update_link, name='update_link'),
     url(r'view_links/$', views.view_image_links, name='view_image_links'),
+    url(r'image/(?P<im_link_id>[0-9]+)/$', views.vote_link, name='vote_link'),
 ]
