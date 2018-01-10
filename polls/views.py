@@ -325,3 +325,4 @@ def update_link(request, link_id=None):
 		raise Http404("This page does not Exist")
 
 	im_link = ImageLink.objects.get(id=link_id)
+	
