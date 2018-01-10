@@ -1,0 +1,36 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+<div style="padding-left:50px">
+<div class="row">
+	<p style="padding-top:30px">
+	</p>
+	<br>
+	<br>
+</div>
+
+<div class="row">
+<div>
+	<h2>
+		The most popular image links in our database are : 
+	</h2>
+</div>
+<div>
+	{% for link in im_list %}
+	<div class="row" style="padding-top:30px">
+		<div class="col-sm-4">
+			<img src="{{ link.image_from.image_url }}" style="width:250px; height:250px">
+		</div>
+		<div class="col-sm-4">
+			<img src="{{ link.image_to.image_url }}" style="width:250px; height:250px">
+		</div>
+		<div class="col-sm-4">
+			<h3>Votes : {{link.vote}}</h3>		
+		</div>
+	</div>
+	{% endfor %}
+</div>
+</div>
+</div>
+
+{% endblock %}

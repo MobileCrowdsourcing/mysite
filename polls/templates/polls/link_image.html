@@ -30,8 +30,20 @@
 </div>
 </div>
 
-<div class="row">
-
+<div class="row" style="padding-top:30px">
+	<div class="col-sm-1">
+	</div>
+	<div class="col-sm-8" style="text-align: center">
+	<form action="{% url 'polls:update_link' im_link.id %}" method="post">
+		{% csrf_token %}
+		<input type="radio" name="choice" id="choiceYes" value="yes"/>
+		<label for="choiceYes" style="padding-right:50px">Yes</label>
+		<input type="radio" name="choice" id="choiceNp" value="no"/>
+		<label for="choiceNo" style="padding-right:30px">No</label>
+		<br>
+		<input type="submit" value="Submit"/>
+	</form>
+	</div>
 </div>
 
 

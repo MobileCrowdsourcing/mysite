@@ -329,4 +329,39 @@ def update_link(request, link_id=None):
 		raise Http404("This page does not Exist")
 
 	im_link = ImageLink.objects.get(id=link_id)
-	
+	if request.POST['choice'] == 'yes':
+		print('User has voted yes for this link.')
+		im_link.vote = im_link.vote+1
+	else:
+		if request.POST['choice'] == 'no':
+			print('User has voted no for this link')
+			im_link.vote = im_link.vote-1
+	im_link.save()
+	return HttpResponseRedirect(reverse('polls:view_image_links'))
+
+
+def getVote(link):
+	return link.vote
+
+
+def view_image_links(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	links = ImageLink.objects.all()
+	my_list = []
+	for link in links:
+		my_list.append(link)
+
+
+	sorted_list = sorted(my_list, key=getVote, reverse=True)
+
+	return render(request, 'polls/view_links.html', {
+		'user_log': request.user.is_authenticated,
+		'im_list': sorted_list[:6]
+		})
