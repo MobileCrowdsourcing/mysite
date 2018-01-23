@@ -379,5 +379,5 @@ def view_image_links(request):
 
 	return render(request, 'polls/view_links.html', {
 		'user_log': request.user.is_authenticated,
-		'im_list': sorted_list[:6]
+		'im_list': sorted_list[:15]
 		})
