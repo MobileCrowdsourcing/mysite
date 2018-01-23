@@ -216,7 +216,7 @@ def pathInput(request, text_input_id):
 	path = Text_Input.objects.get(id=text_input_id)
 
 
-def make_link(request, flag=0, sc_id=None, path_id=None, sc_t_id=None):
+def make_scenario_link(request, flag=0, sc_id=None, path_id=None, sc_t_id=None):
 
 	if request.user.is_authenticated:
 		print("Logged in as " + str(request.user.username))
@@ -326,6 +326,7 @@ def vote_link(request, im_link_id):
 	except:
 		raise Http404('Page Not Found')
 	# if im_link is None:
+	print('Link obtained : ' + str(im_link.id))
 	return render(request, 'polls/link_image.html', {
 		'im_link': im_link,
 		'user_log': request.user.is_authenticated
@@ -343,7 +344,7 @@ def update_link(request, link_id=None):
 
 	if request.method != 'POST':
 		raise Http404("This page does not Exist")
-
+	print('Updating link ID : ' + str(link_id))
 	im_link = ImageLink.objects.get(id=link_id)
 	if request.POST['choice'] == 'yes':
 		print('User has voted yes for this link.')
@@ -381,3 +382,27 @@ def view_image_links(request):
 		'user_log': request.user.is_authenticated,
 		'im_list': sorted_list[:15]
 		})
+
+
+def image_grid(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	if request.method=='GET':
+		from_list = ImageScenario.objects.all()
+		to_list = ImageScenario.objects.all()
+
+		return render(request, 'polls/image_grid.html', {
+			'user_log': request.user.is_authenticated,
+			'from_list': from_list,
+			'to_list': to_list
+			})
+
+
+def make_image_chain(request, from_image=None, to_image=None):
+	pass
