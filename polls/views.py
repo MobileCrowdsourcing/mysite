@@ -5,13 +5,14 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink
+from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from random import *
-
+import pickle
+import sys
 # class IndexView(generic.ListView):
 # 	template_name = 'polls/index.html'
 # 	context_object_name = 'latest_q_list'
@@ -404,5 +405,118 @@ def image_grid(request):
 			})
 
 
-def make_image_chain(request, from_image=None, to_image=None):
-	pass
+def show_chains(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+	try:
+		fp = open('polls/store/gs.p', 'rb')
+	except:
+		print('Error : ' + str(sys.exc_info()[0]))
+		raise Http404('Page Not Found')
+
+	dgraph = pickle.load(fp)
+	fp.close()
+	new_dict = {}
+	for item in dgraph:
+		id_list = dgraph[item]
+		new_list = []
+		for i in id_list:
+			new_list.append(ImageScenario.objects.get(id=i))
+		new_dict[item]=new_list
+
+	return render(request, 'polls/select_chain.html', {
+		'user_log': request.user.is_authenticated,
+		'chains': new_dict,
+		})
+
+
+def choose_image(request, chain_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+	try:
+		fp = open('store/gs.p', 'rb')
+	except:
+		print('Error : ' + str(sys.exc_info()[0]))
+		raise Http404('Page Not Found')
+
+	images = ImageScenaio.objects.all()
+	dgraph = pickle.load(fp)
+	fp.close()
+	return render(request, 'polls/choose_image.html', {
+		'user_log': request.user.is_authenticated,
+		'images': images,
+		'chain_id': chain_id,
+		})
+
+
+def check_chain(request, chain_id=None, start_image_id=None, to_image_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+
+	try:
+		fp = open('store/gs.p', 'rb')
+	except:
+		print('Error : ' + str(sys.exc_info()[0]))
+		raise Http404('Page Not Found')
+
+	dgraph = pickle.load(fp)
+	fp.close()
+	start_image_id = dgraph[chain_id][0]
+	start_image = ImageScenaio.objects.get(id=start_image_id)
+	to_image = ImageScenaio.objects.get(id=to_image_id)
+	
+	current_chain = dgraph[chain_id]
+	s_chain = current_chain.append(to_image_id)
+	length = len(s_chain)
+	links1 = ImageChain.objects.filter(start_image=start_image, end_image=to_image)
+	flag = False
+	for link in links1:
+		chain = dgraph[link.id]
+		if(len(chain) < length):
+			continue
+		flag = True
+		for i in range(0, length):
+			if(chain[i] != s_chain[i]):
+				flag = False
+		if(flag is True):
+			break
+
+	if(flag is True):
+		# Chain exists
+		ch = ImageChain.objects.get(id=link.id)
+		ch.votes = ch.votes + 1
+		ch.save()
+	else:
+		# We have to add a new chain, and a new row in the table
+		# new chain -> s_chain
+		new_chain = ImageChain(start_image=start_image, end_image=to_image, votes=0)
+		new_chain.save()
+		dgraph[new_chain.id] = s_chain
+		try:
+			fp = open('store/gs.p', 'wb')
+		except:
+			print('Error : ' + str(sys.exc_info()[0]))
+			raise Http404('Page Not Found')
+		pickle.dump(dgraph, fp)
+
+	# s_chain is the new chain (current chain for the next page)
+	# Send s_chain back to the same url
+	return render(request, 'polls/make_image_chain.html', {
+		'user_log' : request.user.is_authenticated,
+		})

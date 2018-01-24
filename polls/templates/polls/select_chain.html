@@ -1,0 +1,22 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+<div>
+	Select from the following existing scenarios:
+	
+	<ul>
+		{% for item in chains %}
+		<li>
+			<h3>
+				id : {{ item }}
+			</h3>
+			{% for image in chains.item %}
+			<img src="{{image.url}}">
+			{% endfor %}
+		</li>
+		{% endfor %}
+	</ul> 
+</div>
+
+{% endblock %}

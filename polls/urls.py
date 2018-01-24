@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'update_link/(?P<link_id>[0-9]+)/$', views.update_link, name='update_link'),
     url(r'view_links/$', views.view_image_links, name='view_image_links'),
     url(r'image/(?P<im_link_id>[0-9]+)/$', views.vote_link, name='vote_link'),
+    url(r'choose_chain/$', views.show_chains, name='choose_chain'),
 ]

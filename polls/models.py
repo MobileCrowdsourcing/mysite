@@ -93,3 +93,10 @@ class ImageLink(models.Model):
     image_from = models.ForeignKey(ImageScenario, related_name='from_image', on_delete=models.CASCADE)
     vote = models.IntegerField(default=0)
     image_to = models.ForeignKey(ImageScenario, related_name='to_image', on_delete=models.CASCADE)
+
+
+class ImageChain(models.Model):
+    start_image = models.ForeignKey(ImageScenario, related_name='start_image', on_delete=models.CASCADE)
+    end_image = models.ForeignKey(ImageScenario, related_name='end_image', on_delete=models.CASCADE)
+    votes = models.IntegerField(default=0)
+
