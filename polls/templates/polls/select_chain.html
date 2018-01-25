@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div>
-	Select from the following existing scenarios:
+<div style="padding-left: 50px"> 
+	<span style ="color:#565678;font-size: 30px">Select from the following existing scenarios:</style>
 	
 	<ul>
 		{% for key, value in chains.items %}
@@ -12,10 +12,9 @@
 				id : {{ key }}
 			</h3>
 			{% for image in value %}
-			<p>
+			
 				{#url : {{ image.image_url}}#}
-			</p>
-			<img src="{{image.image_url}}">
+			<img src="{{image.image_url}}" style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px">
 			{% endfor %}
 		</li>
 		{% endfor %}
