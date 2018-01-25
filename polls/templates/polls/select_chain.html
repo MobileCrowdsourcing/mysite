@@ -6,13 +6,16 @@
 	Select from the following existing scenarios:
 	
 	<ul>
-		{% for item in chains %}
+		{% for key, value in chains.items %}
 		<li>
 			<h3>
-				id : {{ item }}
+				id : {{ key }}
 			</h3>
-			{% for image in chains.item %}
-			<img src="{{image.url}}">
+			{% for image in value %}
+			<p>
+				{#url : {{ image.image_url}}#}
+			</p>
+			<img src="{{image.image_url}}">
 			{% endfor %}
 		</li>
 		{% endfor %}
