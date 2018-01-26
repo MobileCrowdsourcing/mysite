@@ -3,6 +3,24 @@
 {% block content %}
 
 <h3 style="padding-left:30px">
-	Development here, don't panic yet.
+<br>
+<br>
+	 Choose from any one of the following images to continue the story:
+	 <br>
+	 <br>
+	 <div style="padding-left:60px">
+	 <form action="#" method ="post">
+	 <select name="image_select" multiple>
+	 {% for items in images %}
+	 	<option value ="1"> hello<img src="{{items.image_url}}" style="height:300px;width:300px;padding-right: 20px">
+	 	</option>
+	 	<option value = "2"> <img src="{% static 'polls/images/pen_paper.jpg' %}" style="height:400px;width:500px;padding-left: 100px"/>
+	 	</option>
+
+	 {% endfor %}
+	 </select>
+	 <input type="submit">
+	 </form>
+	 </div>	
 </h3>
 {% endblock %}
