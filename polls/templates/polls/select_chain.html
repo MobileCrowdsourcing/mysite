@@ -6,18 +6,24 @@
 	<span style ="color:#565678;font-size: 30px">Select from the following existing scenarios:</style>
 	
 	<ul>
-		{% for key, value in chains.items %}
-		<li>
-			<h3>
-				id : {{ key }}
-			</h3>
-			{% for image in value %}
-			
-				{#url : {{ image.image_url}}#}
-			<img src="{{image.image_url}}" style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px">
+		<form action="{% url 'polls:choose_image' %}" method="post">
+			{% csrf_token %}
+
+			<input type="Submit" value="Submit">
+			{% for key, value in chains.items %}
+			<li>
+				<h3>
+					id : {{ key }}
+				</h3>
+				<input type="radio" name="chain_id" id="chain{{key}}" value={{key}}>
+				{% for image in value %}
+				
+					{#url : {{ image.image_url}}#}
+				<img src="{{image.image_url}}" style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px">
+				{% endfor %}
+			</li>
 			{% endfor %}
-		</li>
-		{% endfor %}
+		</form>
 	</ul> 
 </div>
 

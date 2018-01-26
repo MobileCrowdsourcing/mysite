@@ -428,7 +428,7 @@ def show_chains(request):
 		for i in id_list:
 			new_list.append(ImageScenario.objects.get(id=i))
 		new_dict[item]=new_list
-
+	print('Showing all chains to user.')
 	return render(request, 'polls/select_chain.html', {
 		'user_log': request.user.is_authenticated,
 		'chains': new_dict,
@@ -443,13 +443,17 @@ def choose_image(request, chain_id=None):
 		request.session['error_m'] = 'Please Login First'
 		request.session.modified = True
 		return HttpResponseRedirect(reverse('login_user'))
+	if request.method != 'POST':
+		raise Http404("This page does not Exist")
 	try:
-		fp = open('store/gs.p', 'rb')
+		fp = open('polls/store/gs.p', 'rb')
 	except:
 		print('Error : ' + str(sys.exc_info()[0]))
 		raise Http404('Page Not Found')
 
-	images = ImageScenaio.objects.all()
+	chain_id = int(request.POST['chain_id'])
+	print(str(chain_id) + ', ' + str(type(chain_id)))
+	images = ImageScenario.objects.all()
 	dgraph = pickle.load(fp)
 	fp.close()
 	return render(request, 'polls/choose_image.html', {
@@ -459,7 +463,7 @@ def choose_image(request, chain_id=None):
 		})
 
 
-def check_chain(request, chain_id=None, start_image_id=None, to_image_id=None):
+def check_chain(request, chain_id=None, to_image_id=None):
 	if request.user.is_authenticated:
 		print("Logged in as " + str(request.user.username))
 	else:
