@@ -472,9 +472,12 @@ def check_chain(request, chain_id=None, to_image_id=None):
 		request.session.modified = True
 		return HttpResponseRedirect(reverse('login_user'))
 
-
+	if request.method != 'POST':
+		raise Http404("This page does not Exist")
+	image_id = int(request.POST['image_id'])
+	print('Selected Image ID : ' + str(image_id))
 	try:
-		fp = open('store/gs.p', 'rb')
+		fp = open('polls/store/gs.p', 'rb')
 	except:
 		print('Error : ' + str(sys.exc_info()[0]))
 		raise Http404('Page Not Found')
