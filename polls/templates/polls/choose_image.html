@@ -31,7 +31,7 @@
 				<h3>id {{item.id}}</h3>
 			
 			<img src={{item.image_url}} style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px">
-			<input type="radio" name="image_id" id="image{{key}}" value={{key}}>
+			<input type="radio" name="image_id" id="image{{key}}" value={{item.id}}>
 			</li>
 			{% endfor %}
 			<input type="Submit" value="Submit">
