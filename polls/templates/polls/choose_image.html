@@ -24,7 +24,7 @@
 	  <input type="submit">
 	 </form> -->
 	 <ul>
-	 	<form action="{% url 'polls:check_chain' %}" method="post">
+	 	<form action="{% url 'polls:check_chain' chain_id%}" method="post">
 	 		{% csrf_token %}
 			{% for item in images %}
 			<li>

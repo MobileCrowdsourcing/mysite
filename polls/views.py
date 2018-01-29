@@ -463,7 +463,7 @@ def choose_image(request, chain_id=None):
 		})
 
 
-def check_chain(request, chain_id=None, to_image_id=None):
+def check_chain(request, chain_id=None):
 	if request.user.is_authenticated:
 		print("Logged in as " + str(request.user.username))
 	else:
@@ -481,21 +481,27 @@ def check_chain(request, chain_id=None, to_image_id=None):
 	except:
 		print('Error : ' + str(sys.exc_info()[0]))
 		raise Http404('Page Not Found')
-
+	print('chain_id : ' + chain_id)
+	chain_id = int(chain_id)
 	dgraph = pickle.load(fp)
 	fp.close()
 	start_image_id = dgraph[chain_id][0]
-	start_image = ImageScenaio.objects.get(id=start_image_id)
-	to_image = ImageScenaio.objects.get(id=to_image_id)
-	
+	to_image_id = image_id
+	start_image = ImageScenario.objects.get(id=start_image_id)
+	to_image = ImageScenario.objects.get(id=to_image_id)
+
 	current_chain = dgraph[chain_id]
-	s_chain = current_chain.append(to_image_id)
+	s_chain = []
+	for item in current_chain:
+		s_chain.append(item)
+
+	# s_chain = current_chain.append(to_image_id)
 	length = len(s_chain)
 	links1 = ImageChain.objects.filter(start_image=start_image, end_image=to_image)
 	flag = False
 	for link in links1:
 		chain = dgraph[link.id]
-		if(len(chain) < length):
+		if(len(chain) != length):
 			continue
 		flag = True
 		for i in range(0, length):
@@ -516,7 +522,7 @@ def check_chain(request, chain_id=None, to_image_id=None):
 		new_chain.save()
 		dgraph[new_chain.id] = s_chain
 		try:
-			fp = open('store/gs.p', 'wb')
+			fp = open('polls/store/gs.p', 'wb')
 		except:
 			print('Error : ' + str(sys.exc_info()[0]))
 			raise Http404('Page Not Found')
