@@ -25,18 +25,20 @@
 	 </form> -->
 	 <ul>
 	 	<form action="{% url 'polls:check_chain' chain_id%}" method="post">
+
 	 		{% csrf_token %}
+	 		<p>
 			{% for item in images %}
-			<li>
-				<h3>id {{item.id}}</h3>
-			
-			<img src={{item.image_url}} style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px">
+			<!--<li>
+				<h3>id {{item.id}}</h3>-->
+			<img src={{item.image_url}} style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
 			<input type="radio" name="image_id" id="image{{key}}" value={{item.id}}>
-			</li>
+			
 			{% endfor %}
+			</p>
 			<input type="Submit" value="Submit">
 	 	</form>
-	</ul>
+	
 	
 	 </div>	
 </h3>
