@@ -549,3 +549,96 @@ def check_chain(request, chain_id=None):
 	# return render(request, 'polls/make_image_chain.html', {
 	# 	'user_log' : request.user.is_authenticated,
 	# 	})
+
+
+# function to start building new chains
+def start_story(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	# All images
+	images = ImageScenario.objects.all()
+
+	return render(request, 'polls/start_story.html', {
+		'user_log': request.user.is_authenticated,
+		'images': images,
+		})
+
+
+# function to choose the second image
+def start_story_2(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	# Choosing the second image.
+	# ID of first image
+	image1_id = request.GET['image_id']
+	# First Image
+	image1 = ImageScenario.objects.get(id=image1_id)
+	all_images = ImageScenario.objects.all()
+	# images = ImageScenario.objects.filter(id!=image1_id)
+	images = all_images.exclude(id=image1_id)
+	return render(request, 'polls/start_story_2.html', {
+		'user_log': request.user.is_authenticated,
+		'first_image_id': image1_id,
+		'images': images,
+		})
+
+
+# Making the chain and redirecting
+def add_story(request, first_image_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	to_image_id = request.GET['image_id']
+
+	if first_image_id is None:
+		print('First image not found')
+		raise Http404('Page Not Found')
+
+	print('First Image ID : ' + str(first_image_id) + ', Second Image ID : ' + str(to_image_id))
+	start_image = ImageScenario.objects.get(id=first_image_id)
+	end_image = ImageScenario.objects.get(id=to_image_id)
+
+	new_chain = ImageChain(start_image=start_image, end_image=end_image, votes=0)
+	new_chain.save()
+	new_list = [first_image_id, to_image_id]
+
+	print('New Chain ID : ' + str(new_chain.id))
+	try:
+		fp = open('polls/store/gs.p', 'rb')
+	except:
+		print('Error : ' + str(sys.exc_info()[0]))
+		raise Http404('Cannot Access DB')
+
+	dgraph = pickle.load(fp)
+	dgraph[new_chain.id] = new_list
+	fp.close()
+
+	try:
+		fp = open('polls/store/gs.p', 'wb')
+		pickle.dump(dgraph, fp)
+		fp.close()
+	except:
+		print('Error : ' + str(sys.exc_info()[0]))
+		raise Http404('Cannot Access DB')
+
+	print('Sending new_chain_id : ' + str(new_chain.id))
+	chain_id = new_chain.id
+	return HttpResponseRedirect(reverse('polls:choose_2image', args=[chain_id]))
+

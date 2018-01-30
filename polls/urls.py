@@ -41,4 +41,7 @@ urlpatterns = [
     url(r'choose_image/$', views.choose_image, name='choose_image'),
     url(r'choose_image/(?P<chain_id>[0-9]+)/$', views.choose_image, name='choose_2image'),
     url(r'check_chain/(?P<chain_id>[0-9]+)/$', views.check_chain, name='check_chain'),
+    url(r'start_story/$', views.start_story, name='start_story'),
+    url(r'start_story_2/$', views.start_story_2, name='start_story_2'),
+    url(r'add_story/(?P<first_image_id>[0-9]+)/$', views.add_story, name='add_story')
 ]
