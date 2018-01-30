@@ -6,7 +6,7 @@
 	<span style ="color:#565678;font-size: 30px">Select from the following existing scenarios:</style>
 	
 	<ul>
-		<form action="{% url 'polls:choose_image' %}" method="post">
+		<form action="{% url 'polls:choose_image' %}">
 			{% csrf_token %}
 
 			

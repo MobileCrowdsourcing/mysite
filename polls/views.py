@@ -443,15 +443,20 @@ def choose_image(request, chain_id=None):
 		request.session['error_m'] = 'Please Login First'
 		request.session.modified = True
 		return HttpResponseRedirect(reverse('login_user'))
-	if request.method != 'POST':
-		raise Http404("This page does not Exist")
 	try:
 		fp = open('polls/store/gs.p', 'rb')
 	except:
 		print('Error : ' + str(sys.exc_info()[0]))
 		raise Http404('Page Not Found')
+	# print('chain_id : ' + str(chain_id))
+	if chain_id is None:
+		try:
+			chain_id = int(request.GET['chain_id'])
+		except:
+			if chain_id is None:
+				print('Error : ' + str(sys.exc_info()[0]))
+				raise(Http404('Bad Request from previous Page'))
 
-	chain_id = int(request.POST['chain_id'])
 	print(str(chain_id) + ', ' + str(type(chain_id)))
 	images = ImageScenario.objects.all()
 	dgraph = pickle.load(fp)
@@ -494,7 +499,7 @@ def check_chain(request, chain_id=None):
 	s_chain = []
 	for item in current_chain:
 		s_chain.append(item)
-
+	s_chain.append(to_image_id)
 	# s_chain = current_chain.append(to_image_id)
 	length = len(s_chain)
 	links1 = ImageChain.objects.filter(start_image=start_image, end_image=to_image)
@@ -509,27 +514,38 @@ def check_chain(request, chain_id=None):
 				flag = False
 		if(flag is True):
 			break
-
+	print('Flag = ' + str(flag))
 	if(flag is True):
 		# Chain exists
+		print('Flag is true.')
 		ch = ImageChain.objects.get(id=link.id)
 		ch.votes = ch.votes + 1
 		ch.save()
+		new_chain_id = link.id
 	else:
 		# We have to add a new chain, and a new row in the table
 		# new chain -> s_chain
+		print('Flag is False.')
 		new_chain = ImageChain(start_image=start_image, end_image=to_image, votes=0)
 		new_chain.save()
+		new_chain_id = new_chain.id
+		print('Old dgraph :')
+		print(dgraph)
 		dgraph[new_chain.id] = s_chain
+		print('New dgraph :')
+		print(dgraph)
 		try:
 			fp = open('polls/store/gs.p', 'wb')
 		except:
 			print('Error : ' + str(sys.exc_info()[0]))
 			raise Http404('Page Not Found')
 		pickle.dump(dgraph, fp)
-
+		fp.close()
 	# s_chain is the new chain (current chain for the next page)
 	# Send s_chain back to the same url
-	return render(request, 'polls/make_image_chain.html', {
-		'user_log' : request.user.is_authenticated,
-		})
+	print('Sending new_chain_id : ' + str(new_chain_id))
+	chain_id = new_chain_id
+	return HttpResponseRedirect(reverse('polls:choose_2image', args=[chain_id]))
+	# return render(request, 'polls/make_image_chain.html', {
+	# 	'user_log' : request.user.is_authenticated,
+	# 	})
