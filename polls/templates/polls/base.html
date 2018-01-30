@@ -37,10 +37,10 @@
         <nav class="nav nav-fixed top" position="fixed" >
                     <ul class="nav nav-tabs nav-inverse nav-justified" style="font-size:14px;font-style:Comic; background-color:#ffffff">
                         
-                       
-                        <li><a href="{% url 'polls:index' %}" style="padding-top:10px">polls</a></li>
+                        <li><a href="{% url 'home' %}" style="padding-top:10px">Home</a></li>
+                        <li><a href="{% url 'polls:start_story' %}" style="padding-top:10px">Start A Story</a></li>
+                        <li><a href="{% url 'polls:choose_chain' %}" style="padding-top:10px">Continue A Story</a></li>
                         <li><a href="{% url 'polls:scenarios' %}" style="padding:top:10px">Scenarios</a></li>
-                        <li><a href="{% url 'polls:index' %}" style="padding-top:10px">index</a></li>
                         {% if user_log %}
                         <li><a href="{% url 'logout_user' %}" style="padding-top:10px" onclick="ShowAlert()">Logout</a></li>
                         {% else %}

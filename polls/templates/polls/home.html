@@ -18,14 +18,17 @@
 	<h1 style="text-align: center">Write a new story</h1>
 	<br>
 	<br>
-	<img src="{% static 'polls/images/pen_paper.jpg' %}" style="height:400px;width:500px;padding-left: 100px"/>
-	
+	<a href="{% url 'polls:start_story' %}" style="padding-top:10px">
+		<img src="{% static 'polls/images/pen_paper.jpg' %}" style="height:400px;width:500px;padding-left: 100px"/>
+	</a>
 	</div>
 	<div class="col-sm-5" id ="block2">
-	<h1 style="text-align: center">Edit a story</h1>
+	<h1 style="text-align: center">Continue a story</h1>
 	<br>
 	<br>
-	<img src="{% static 'polls/images/editStory.jpg' %}" style="height:400px;width:500px ;padding-left:70px"/>
+	<a href="{% url 'polls:choose_chain' %}" style="padding-top:10px">
+		<img src="{% static 'polls/images/editStory.jpg' %}" style="height:400px;width:500px ;padding-left:70px"/>
+	</a>
 	</div>
 	<div class="col-sm-1">
 	</div>
