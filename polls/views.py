@@ -59,7 +59,9 @@ def index(request):
 
 # home page
 def home_page(request):
-	return render(request, 'polls/home.html')
+	return render(request, 'polls/home.html', {
+		'user_log': request.user.is_authenticated,
+		})
 
 
 def login_user(request):
@@ -71,7 +73,7 @@ def login_user(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			login(request, user)
-			return HttpResponseRedirect(reverse('polls:index'))
+			return HttpResponseRedirect(reverse('home'))
 		else:
 			return render(request, 'polls/login.html', {
 				'error_message' : 'Username / Password incorrect'
