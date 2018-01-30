@@ -359,7 +359,11 @@ def update_link(request, link_id=None):
 
 
 def getVote(link):
-	return link.vote
+	try:
+		v = link.vote
+	except:
+		v = link.votes
+	return v
 
 
 def view_image_links(request):
