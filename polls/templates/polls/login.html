@@ -1,6 +1,7 @@
 {% extends "polls/base.html" %}
 
 {% block content %}
+{% load static %}
 <div class="row">
 
 <div class="col-sm-1">
@@ -38,27 +39,31 @@
 
 
 
-<div style="padding-top: 30px">
+<!-- <div style="padding-top: 30px">
     <div class="col-sm-4">
     </div>
-    <div class = "col-sm-4" style="padding-left: 70px">
-    <form method="POST" action="{% url 'login_user' %}">
+    <div class = "col-sm-4"> -->
+    <form method="POST" action="{% url 'login_user' %}" class="modal-content">
+    <div class="imgcontainer">
+        <!--  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>-->
+          <img src=" {% static 'polls/images/red-key-clipart-1.jpg' %}" alt="Avatar" style="width:150px;height:150px">
+        </div>
+    <div class="container">
         {% csrf_token %}
-        <p>
-            <label>Username</label>
-            <input type="text" name="username">
-        </p>
-        <p>
-            <label>Password</label>
-            <input type="password" name="password">
-        </p>
-        <button type="submit" style="margin-left:70px">Login</button>
+        
+            <label for="uname"><b>Username</b></label>
+            <input type="text" name="username" placeholder ="Enter username">
+        
+            <label for="psw"><b>Password</b></label>
+            <input type="password" name="password" placeholder="Enter password">
+       
+        <button type="submit" style="width:40%">Login</button>
     </form>
-    </div>
+    <!-- </div>
 
     <div class="col-sm-4">
-    </div>
-</div>
+    </div> 
+</div>-->
 
 
 
