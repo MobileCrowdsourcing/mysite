@@ -9,6 +9,7 @@ from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario,
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from random import *
 import pickle
@@ -94,6 +95,31 @@ def logout_user(request):
 	print('Logging out User ' + str(request.user.username))
 	logout(request)
 	return HttpResponseRedirect(reverse('login_user'))
+
+
+def sign_up(request):
+	if request.user.is_authenticated:
+		print('Already signed in..')
+		request.session['error_m'] = 'Already signed in with an account. Sign out to continue.'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('home'))
+	else:
+		if request.method == 'POST':
+			uname = request.POST['username']
+			u = User.objects.filter(username=uname)
+			if len(u) == 0:
+				# Username does not exist.
+				password = request.POST['password']
+				email = request.POST['email']
+				new_user = User.objects.create_user(uname, email, password)
+				print('Created new User ' + str(uname))
+				if request.user.is_authenticated == False:
+					login(request, new_user)
+				return HttpResponseRedirect(reverse'home')
+			else:
+				return render(request, 'polls/sign_up.html', {
+					'user_log': request.user.is_authenticated
+					})
 
 
 def pengu(request):
@@ -647,4 +673,5 @@ def add_story(request, first_image_id=None):
 	print('Sending new_chain_id : ' + str(new_chain.id))
 	chain_id = new_chain.id
 	return HttpResponseRedirect(reverse('polls:choose_2image', args=[chain_id]))
+
 
