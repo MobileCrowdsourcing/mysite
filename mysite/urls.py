@@ -23,5 +23,6 @@ urlpatterns = [
 	url(r'^polls/', include('polls.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.login_user, name='login_user'),
-    url(r'^logout/$', views.logout_user, name='logout_user')
+    url(r'^logout/$', views.logout_user, name='logout_user'),
+    url(r'^sign_up/$', views.sign_up, name='sign_up'),
 ]

@@ -60,6 +60,14 @@ def index(request):
 
 # home page
 def home_page(request):
+	if(request.session.has_key('error_m')):
+			error_m = request.session['error_m']
+			del request.session['error_m']
+			request.session.modified = True
+			return render(request, 'polls/home.html', {
+				'error_m': error_m,
+				'user_log': request.user.is_authenticated,
+				})
 	return render(request, 'polls/home.html', {
 		'user_log': request.user.is_authenticated,
 		})
@@ -115,10 +123,14 @@ def sign_up(request):
 				print('Created new User ' + str(uname))
 				if request.user.is_authenticated == False:
 					login(request, new_user)
-				return HttpResponseRedirect(reverse'home')
+				return HttpResponseRedirect(reverse('home'))
 			else:
+				print('Username already exists')
 				return render(request, 'polls/sign_up.html', {
-					'user_log': request.user.is_authenticated
+					'error_message': 'Username already exists'
+					})
+		else:
+				return render(request, 'polls/sign_up.html', { 
 					})
 
 

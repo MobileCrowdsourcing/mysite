@@ -4,6 +4,11 @@
 <div class="row" style="height:800px">
 	
 	<div class="row">
+	{% if error_m %}
+	<script type="text/javascript">
+		alert('{{error_m}}')
+	</script>
+	{% endif %}
 		<p>
 			<br>
 			<br>
