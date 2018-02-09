@@ -1,6 +1,6 @@
 #logincolor
 {
-	background-color:#5089e5;
+	background-color:#fefefe;
 	height:600px;
 }
 
@@ -59,6 +59,12 @@ background-color:#8841f4;
     border: 1px solid #888;
     width: 50%; /* Could be more or less, depending on screen size */
 }
+#log-container
+{
+	margin :5% auto 15% auto;
+	border: 1px solid #888;
+	background-color:#88b2f7;
+}
 /*
 /* The Close Button (x) */
 .close {
@@ -74,4 +80,14 @@ background-color:#8841f4;
 .close:focus {
     color: red;
     cursor: pointer;
+}
+#log input[type=text], #log input[type=password],#log button[type=submit]  {
+    width: 80%;
+    padding: 10px 10px 10px 10px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid #111;
+    box-sizing: border-box;
+    align-self: : center;
+
 }
