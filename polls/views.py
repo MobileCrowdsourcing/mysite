@@ -687,3 +687,13 @@ def add_story(request, first_image_id=None):
 	return HttpResponseRedirect(reverse('polls:choose_2image', args=[chain_id]))
 
 
+def profile(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	
