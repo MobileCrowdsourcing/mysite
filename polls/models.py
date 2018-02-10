@@ -30,6 +30,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 @python_2_unicode_compatible
@@ -99,4 +100,14 @@ class ImageChain(models.Model):
     start_image = models.ForeignKey(ImageScenario, related_name='start_image', on_delete=models.CASCADE)
     end_image = models.ForeignKey(ImageScenario, related_name='end_image', on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
+
+
+class BaseImage(models.Model):
+    user = models.ForeignKey(User)
+    url = models.TextField()
+    text = models.CharField(max_length=300)
+
+
+class ActionImage(models.Model):
+    url = models.TextField()
 

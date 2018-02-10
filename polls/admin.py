@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain
+from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -48,3 +48,5 @@ admin.site.register(Link)
 admin.site.register(ImageScenario)
 admin.site.register(ImageLink)
 admin.site.register(ImageChain)
+admin.site.register(BaseImage)
+admin.site.register(ActionImage)
