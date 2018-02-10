@@ -62,3 +62,27 @@ def add_story(request, first_image_id=None):
 	print('Sending new_chain_id : ' + str(new_chain.id))
 	chain_id = new_chain.id
 	return HttpResponseRedirect(reverse('polls:choose_2image', args=[chain_id]))
+
+
+def add_base(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	user = request.user
+	if request.method == "POST":
+		url = request.POST['url']
+		text = request.POST['text']
+		new_image = BaseImage(user=user, url=url, text=text)
+		print("New BaseImage Added")
+		return HttpResponseRedirect(reverse('home'))
+	else:
+		return render(request, 'polls/add_base.html', {
+			'user': user,
+			'user_log': request.user.is_authenticated,
+			})
+

@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain
+from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, ActionImage, BaseImage
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -648,4 +648,12 @@ def profile(request):
 		request.session.modified = True
 		return HttpResponseRedirect(reverse('login_user'))
 
-	
+	base_images = BaseImage.objects.filter(user=request.user)
+
+
+	return render(request, 'polls/profile.html', {
+		'base_images': base_images,
+		'user_log': request.user.is_authenticated,
+		'user': request.user,
+		})
+
