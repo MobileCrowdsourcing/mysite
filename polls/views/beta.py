@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain
+from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -76,8 +76,9 @@ def add_base(request):
 	user = request.user
 	if request.method == "POST":
 		url = request.POST['url']
-		text = request.POST['text']
+		text = request.POST['imageText']
 		new_image = BaseImage(user=user, url=url, text=text)
+		new_image.save()
 		print("New BaseImage Added")
 		return HttpResponseRedirect(reverse('home'))
 	else:
@@ -85,4 +86,24 @@ def add_base(request):
 			'user': user,
 			'user_log': request.user.is_authenticated,
 			})
+
+
+def make_sequence(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	user = request.user
+	# Showing list of starting images to user here.
+	images = BaseImage.objects.all()
+	return render(request, 'polls/make_sequence.html', {
+		'user': user,
+		'images': images,
+		'user_log': request.user.is_authenticated,
+		})
+
 

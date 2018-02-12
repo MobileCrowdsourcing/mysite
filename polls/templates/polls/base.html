@@ -136,6 +136,7 @@ span.psw {
                         <li><a href="{% url 'polls:scenarios' %}" style="padding:top:10px">Scenarios</a></li>
                         {% if user_log %}
                         <li><a href="{% url 'logout_user' %}" style="padding-top:10px" onclick="ShowAlert()">Logout</a></li>
+                        <li><a href="{% url 'profile' %}" style="padding-top:10px">My Profile</a></li>
                         {% else %}
                         <li><a href="{% url 'login_user' %}" style="padding-top:10px">Login</a></li>
                         {% endif %}

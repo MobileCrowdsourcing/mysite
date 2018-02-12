@@ -15,16 +15,21 @@
 		</h3>
 		{% if base_images %}
 		<p>
-			Showing images here.
+			<!-- Showing images here. -->
 			{% for image in base_images %}
 			<div>
 				<img src="{{image.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+				<br>
+				<p>
+					{{ image.text }}
+				</p>
 			</div>
 			{% endfor %}
+			<a href="{% url 'polls:add_base' %}">Click here</a> to add a story.
 		</p>
 		{% else %}
 		<p>
-			You havent added any stories yet. <a href='#'>Click here</a> to add a story.
+			You havent added any stories yet. <a href="{% url 'polls:add_base' %}">Click here</a> to add a story.
 		</p>
 		{% endif %}
 	</div>

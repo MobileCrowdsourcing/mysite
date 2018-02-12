@@ -45,4 +45,5 @@ urlpatterns = [
     url(r'start_story_2/$', views.start_story_2, name='start_story_2'),
     url(r'add_story/(?P<first_image_id>[0-9]+)/$', views.add_story, name='add_story'),
     url(r'add_base/$', views.add_base, name='add_base'),
+    url(r'make_sequence/$', views.make_sequence, name='make_sequence'),
 ]

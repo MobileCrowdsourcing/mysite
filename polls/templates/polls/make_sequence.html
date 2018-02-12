@@ -1,0 +1,40 @@
+{% extends 'polls/base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+<div style="padding-left:30px">
+	{% if images %}
+	<h3>
+		Choose from one of the images here to start a story.
+	</h3>
+	<p>
+		You can also add your own image <a href="{% url 'polls:add_base' %}">here.</a>
+	</p>
+	<div>
+		<h3>
+			List
+		</h3>
+		<form action="{% url 'polls:make_sequence' %}" method="post">
+			{% csrf_token %}
+			
+			{% for image in images %}
+			<div>
+				<img src="{{ image.url }}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+				<p>
+					{{image.text}}
+				</p>
+				<input type="radio" name="image_id" id="image{{image.id}}" value={{image.id}}>
+			</div>
+			{% endfor %}
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+	{% else %}
+	<h3>
+		No images added yet. Click <a href="{% url 'polls:add_base' %}">here</a> to add your own.
+	</h3>
+	{% endif %}
+</div>
+{% endblock %}
