@@ -649,11 +649,26 @@ def profile(request):
 		return HttpResponseRedirect(reverse('login_user'))
 
 	base_images = BaseImage.objects.filter(user=request.user)
+	user_stories = Authors.objects.filter(user=request.user)
 
+	with open('polls/store/stories.p', 'rb') as fp:
+		stories = pickle.load(fp)
+
+	new_dict = {}
+	for item in user_stories:
+		story = item.story
+		story_id = story.id
+		id_list = stories[story_id]
+		image_list = []
+		image_list.append(BaseImage.objects.get(id=id_list[0]))
+		for i in range(1, len(id_list)):
+			image_list.append(ActionImage.objects.get(id=id_list[i]))
+		new_dict[story_id] = image_list
 
 	return render(request, 'polls/profile.html', {
 		'base_images': base_images,
 		'user_log': request.user.is_authenticated,
 		'user': request.user,
+		'stories': new_dict,
 		})
 

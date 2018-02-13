@@ -5,6 +5,7 @@ from django.contrib import admin
 from .models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage
 from .models import Story, Authors
 
+
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3

@@ -52,10 +52,10 @@
         {% csrf_token %}
         
             <label for="uname"><b>Username</b></label>
-            <input type="text" name="username" placeholder ="Enter username">
+            <input type="text" name="username" placeholder ="Enter username" required>
         
             <label for="psw"><b>Password</b></label>
-            <input type="password" name="password" placeholder="Enter password">
+            <input type="password" name="password" placeholder="Enter password" required>
        
         <button type="submit" style="width:40%">Login</button>
     </form>
