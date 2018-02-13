@@ -16,13 +16,16 @@
 		<h3>
 			Click on an image to continue.
 		</h3>
-		
+			
 			{% for image in images %}
-			<div>
+			<div class="row">
+				<div class="col-sm-4">
 				<a href="{% url 'polls:select_story' image.id %}"><img src="{{ image.url }}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px"></a>
-				<p>
+				</div>
+				<div class="col-sm-8" style="padding-right: 150px">
+				
 					{{image.text}}
-				</p>
+				</div>
 				
 			</div>
 			{% endfor %}

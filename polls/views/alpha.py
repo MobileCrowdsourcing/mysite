@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, ActionImage, BaseImage
+from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, ActionImage, BaseImage, Authors
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout

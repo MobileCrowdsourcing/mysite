@@ -4,34 +4,83 @@
 
 {% block content %}
 
-<div style="padding-left:30px">
-	<h2>
-		Welcome {{ user.username }}
-	</h2>
+<div style="padding-left:30px; padding-top:50px">
 
+<br>
+
+	<h2 style="text-align: center">
+		Welcome {{ user.username }} !
+	</h2>
+	<br>
+	<br>
 	<div>
 		<h3>
-			Your Added Stories:
+			Your uploaded story bases:
 		</h3>
+		<br>
+		<br>
+	</div>	
+
 		{% if base_images %}
 		<p>
 			<!-- Showing images here. -->
 			{% for image in base_images %}
-			<div>
-				<img src="{{image.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
-				<br>
-				<p>
-					{{ image.text }}
-				</p>
+			<div class="row">
+				<div class="col-sm-4">
+				<img src="{{image.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px;position: inline">
+				</div>
+				<div class="col-sm-8">
+					<span style ="padding-right: 250px">{{ image.text }}</span>
+				
+			</div>
 			</div>
 			{% endfor %}
-			<a href="{% url 'polls:add_base' %}">Click here</a> to add a story.
-		</p>
+			</p>
+
+			<br>
+
+			<span style="padding-left: 250px; font-size: 30px"><a href="{% url 'polls:add_base' %}">Click here</a> to start a story.</span>
+		
 		{% else %}
 		<p>
-			You havent added any stories yet. <a href="{% url 'polls:add_base' %}">Click here</a> to add a story.
+			You haven't created any new stories yet. <a href="{% url 'polls:add_base' %}">Click here</a> to add a story.
 		</p>
 		{% endif %}
+		
+		<br>
+		<br>
+
+		<!-- showing story chains created by user -->
+		<div>
+		{% if stories %}
+		<h3>Your created stories are:</h3>
+
+		<br>
+		<br>
+		
+
+		<ul>
+		 {% for key, value in stories.items %}
+		 <li>
+		
+			
+			{% for items in value %}
+			<img src="{{items.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+			{% endfor %}
+		
+		</li>
+		{% endfor %}
+		</ul>
+
+		{% else %}
+			You have not formed any story chains
+		{% endif %}
+
+
+		<br>
+		
+		</div>
+		<span style="padding-left: 250px; font-size: 30px"> Click <a href="{% url 'polls:make_sequence' %}">here</a> to continue a story.</span>
 	</div>
 
 </div>

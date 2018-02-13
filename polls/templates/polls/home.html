@@ -24,7 +24,9 @@
 	<div class="col-sm-1">
 	</div>
 	<div class="col-sm-5" id="block1">
+	<a href="{% url 'polls:add_base' %}" style="padding-top:10px; color: black">
 	<h1 style="text-align: center">Write a new story</h1>
+	</a>
 	<br>
 	<br>
 	<a href="{% url 'polls:add_base' %}" style="padding-top:10px">
@@ -32,7 +34,10 @@
 	</a>
 	</div>
 	<div class="col-sm-5" id ="block2">
+
+	<a href="{% url 'polls:make_sequence' %}" style="padding-top:10px; color:black">
 	<h1 style="text-align: center">Continue a story</h1>
+	</a>
 	<br>
 	<br>
 	<a href="{% url 'polls:make_sequence' %}" style="padding-top:10px">
