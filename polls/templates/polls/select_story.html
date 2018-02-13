@@ -5,19 +5,39 @@
 {% block content %}
 
 <div style="padding-left: 30px">
+<br>
+<br>
+<h3> Select a story chain to continue:</h3>
 	 <form action="{% url 'polls:story_redirect' %}" method="post">
 	  {% csrf_token %}
-		
-		<img src="{{base_image.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+	  <div>
+	  	<div class="col-sm-1">
 		<input type="radio" name = "story_id" id="chain0" value=0>
+		</div>
+		<div class="col-sm-11">
+		<img src="{{base_image.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+		</div>
+		</div>
+		<br>
+		<br>
+		<br>
+		
 	<div>
 		{% for key, value in new_dict.items %}
 		<div>
+			<div class="col-sm-1">
 			<input type="radio" name="story_id" id="chain{{key}}" value={{key}}>
+			</div>
+			<div class="col-sm-11">
 			{% for items in value %}
 			<img src="{{items.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
 			{% endfor %}
+			</div>
+			
+			
 		</div>
+		<br>
+		<br>
 		{% endfor %}
 	</div>
 	<input type="submit" value="Submit">
