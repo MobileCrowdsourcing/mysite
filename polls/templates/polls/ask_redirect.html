@@ -1,0 +1,17 @@
+{% extends 'polls/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div style="padding-left: 30px">
+	<h3>
+		Action added to story!
+	</h3>
+	Want to continue your story?
+
+	Click <a href="{% url 'polls:add_action' story_id %}">here.</a>
+	<br>
+	To choose another story, click <a href="{% url 'polls:make_sequence'%}">here.</a> 
+</div>
+{% endblock %}

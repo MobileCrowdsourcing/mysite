@@ -46,4 +46,9 @@ urlpatterns = [
     url(r'add_story/(?P<first_image_id>[0-9]+)/$', views.add_story, name='add_story'),
     url(r'add_base/$', views.add_base, name='add_base'),
     url(r'make_sequence/$', views.make_sequence, name='make_sequence'),
+    url(r'select_story/(?P<base_id>[0-9]+)/$', views.select_story, name='select_story'),
+    url(r'story_redirect/$', views.story_redirect, name='story_redirect'),
+    url(r'add_action/(?P<story_id>[0-9]+)/$', views.add_action, name='add_action'),
+    url(r'continue_story/(?P<story_id>[0-9]+)/$', views.continue_story, name='continue_story'),
+    url(r'add_success/(?P<story_id>[0-9]+)/$', views.add_success, name='add_success'),
 ]

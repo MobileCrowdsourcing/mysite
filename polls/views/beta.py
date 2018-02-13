@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage
+from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage, Story, Authors
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -117,4 +117,189 @@ def select_story(request, base_id=None):
 		return HttpResponseRedirect(reverse('login_user'))
 
 	user = request.user
-	
+	base_image = BaseImage.objects.get(id=base_id)
+	stories = Story.objects.filter(base_image=base_image)
+	print('Base id ' + str(base_id))
+	base_id = int(base_id)
+	print(type(base_id))
+	new_dict = {}
+	fp = open('polls/store/stories.p', 'rb')
+	print(fp)
+	all_dict = pickle.load(fp)
+	fp.close()
+	for story in stories:
+		story_list = all_dict[story.id]
+		new_list = []
+		new_list.append(base_image)
+		count = 0
+		for item in story_list:
+			if count == 0:
+				count = count + 1
+				continue
+			image = ActionImage.objects.get(id=item)
+			new_list.append(image)
+			count = count + 1
+
+
+		new_dict[story.id] = new_list
+	request.session['base_id'] = base_image.id
+	request.session.modified=True
+	return render(request, 'polls/select_story.html', {
+		'user': user,
+		'new_dict': new_dict,
+		'user_log': request.user.is_authenticated,
+		'base_image': base_image,
+		})
+
+
+def story_redirect(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	story_id = int(request.POST['story_id'])
+	return HttpResponseRedirect(reverse('polls:add_action', args=[story_id]))
+
+
+def add_action(request, story_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+	print("BASE ID showing")
+	user = request.user
+	story_id = int(story_id)
+	# story_id = int(request.POST['story_id'])
+	print('Story ID passed : ' + str(story_id))
+	if story_id == 0:
+		# User has not chosed a chain, but the base image.
+		print('Base image chosen.')
+		story = None
+	else:
+		print('Chain Chosen')
+		# Unpickle and load a list with the story
+		fp = open('polls/store/stories.p', 'rb')
+		stories = pickle.load(fp)
+		id_story = stories[story_id]
+		story = []
+		story.append(BaseImage.objects.get(id=id_story[0]))
+		for i in range(1, len(id_story)):
+			story.append(ActionImage.objects.get(id=id_story[i]))
+		fp.close()
+	if 'base_id' not in request.session:
+		print('No Base ID XD')
+	else:
+		print('Base id : ' + str(request.session['base_id']))
+	action_images = ActionImage.objects.all()
+	base_id = int(request.session['base_id'])
+	base_image = BaseImage.objects.get(id=base_id)
+	return render(request, 'polls/add_action.html', {
+		'user': user,
+		'story': story,
+		'action_images': action_images,
+		'story_id': story_id,
+		'base_image': base_image,
+		'user_log': user.is_authenticated,
+		})
+
+
+def continue_story(request, story_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	user = request.user
+	if request.method != "POST":
+		print('User trying GET')
+		raise Http404("Page Not Found")
+
+	story_id = int(story_id)
+	base_id = request.session['base_id']
+	base_id = int(base_id)
+	base_image = BaseImage.objects.get(id=base_id)
+	action_id = int(request.POST['action_image_id'])
+	action_image = ActionImage.objects.get(id=action_id)
+	print('Story ID : ' + str(story_id) + ', base_id : ' + str(base_id) + ', action_id : ' + str(action_id))
+	with open('polls/store/stories.p', 'rb') as fp:
+			stories = pickle.load(fp)
+	if story_id == 0:
+		# User is adding directly to a base image.
+		print('Add directly to Base.')
+		new_story = [base_id, action_id]
+	else:
+		# User is adding to a chain
+		print('Adding to a current story.')
+		story = stories[story_id]
+		new_story = []
+		for image in story:
+			new_story.append(image)
+		new_story.append(action_id)
+
+	check_stories = Story.objects.filter(base_image=base_image, last_action_image=action_image)
+	found = False
+	for tup in check_stories:
+		tup_id = tup.id
+		check_list = stories[tup_id]
+
+		if len(new_story) != len(check_list):
+			# Not the same list
+			continue
+		found = True
+		for i in range(0, len(new_story)):
+			if new_story[i] != check_list[i]:
+				flag = False
+				break
+		if found is True:
+			# Same story found.
+			story = Story.objects.get(id=tup.id)
+			story.votes = story.votes + 1
+			story.save()
+			check = Authors.objects.filter(story=story, user=user)
+			print(check)
+			if check is None or len(check) == 0:
+				author = Authors(story=story, user=user)
+				author.save()
+			break
+
+	if found is False:
+		# No story found
+		story = Story(base_image=base_image, last_action_image=action_image, votes=0)
+		story.save()
+		author = Authors(story=story, user=user)
+		author.save()
+		print("Created a new story with ID : " + str(story.id))
+		stories[story.id] = new_story
+		with open('polls/store/stories.p', 'wb') as fp:
+			pickle.dump(stories, fp)
+
+	return HttpResponseRedirect(reverse('polls:add_success', args=[story.id]))
+
+
+def add_success(request, story_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	story_id = int(story_id)
+	print('story_id = ' + str(story_id))
+
+	return render(request, 'polls/ask_redirect.html', {
+		'user': request.user,
+		'user_log': request.user.is_authenticated,
+		'story_id': story_id,
+		})

@@ -1,0 +1,26 @@
+{% extends 'polls/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div style="padding-left: 30px">
+	 <form action="{% url 'polls:story_redirect' %}" method="post">
+	  {% csrf_token %}
+		
+		<img src="{{base_image.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+		<input type="radio" name = "story_id" id="chain0" value=0>
+	<div>
+		{% for key, value in new_dict.items %}
+		<div>
+			<input type="radio" name="story_id" id="chain{{key}}" value={{key}}>
+			{% for items in value %}
+			<img src="{{items.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	<input type="submit" value="Submit">
+</div>
+
+{% endblock %}

@@ -111,3 +111,14 @@ class BaseImage(models.Model):
 class ActionImage(models.Model):
     url = models.TextField()
 
+
+class Story(models.Model):
+    base_image = models.ForeignKey(BaseImage, on_delete=models.CASCADE)
+    votes = models.IntegerField(default=0)
+    last_action_image = models.ForeignKey(ActionImage, on_delete=models.CASCADE)
+
+
+class Authors(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
