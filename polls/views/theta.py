@@ -34,8 +34,27 @@ def show_stories(request):
 	with open('polls/store/stories.p', 'rb') as fp:
 		stories = pickle.load(fp)
 
+	# new_dict stores the stories which have been made by the user.
 	new_dict = {}
-	for user_story in user_stories:
-		story_id = user_story.story.id
-		new_list = stories[story_id]
-		new_dict[story_id] = new_list
+	for item in user_stories:
+		story = item.story
+		story_id = story.id
+		id_list = stories[story_id]
+		image_list = []
+		image_list.append(BaseImage.objects.get(id=id_list[0]))
+		for i in range(1, len(id_list)):
+			image_list.append(ActionImage.objects.get(id=id_list[i]))
+		new_dict[story_id] = image_list
+
+	# other_dict stores all the other stories ( the ones which this user has not created per se.)
+	other_dict = {}
+	for item in stories:
+		if item not in new_dict:
+			id_list = stories[item]
+			image_list = []
+			image_list.append(BaseImage.objects.get(id=id_list[0]))
+			for i in range(1, len(id_list)):
+				image_list.append(ActionImage.objects.get(id=id_list[i]))
+			other_dict[item] = image_list
+
+	
