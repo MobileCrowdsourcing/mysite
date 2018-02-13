@@ -10,7 +10,7 @@
 	<p>
 		Form with URL and Text input fields.
 	</p>
-	<form class="modal-content" action="{% url 'polls:add_base' %}" method="post">
+	<form class="modal-content" action="{% url 'polls:add_base' %}" method="post" style="padding-top: 50px;padding-bottom: 50px">
 		{% csrf_token %}
 		<div class="container">
 		<label for="url"><b>Image URL</b></label>
