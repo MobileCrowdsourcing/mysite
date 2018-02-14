@@ -4,26 +4,30 @@
 {% block content %}
 
 <div style="padding-left:30px">
-	<h3>
-		Add an image url and text here to create a base image.
-	</h3>
+	<h2 style="text-align:center; padding-top:50px">
+		Hello {{user.username}}. We start making stories here.
+	</h2>
+	<p>
+		This is where we start making our stories.
+		We start off with picking a "Base Image" : An image which serves as the starting point for any story.
 	<div class="row">
 
 	<!--already available base images -->
 	<div class="col-sm-4">
 	<!--<div class="row" style="padding-right: 30px">-->
-
+	<h3>
+		You can select one of these images to start building a story.
+	</h3>
 	{% for items in base %}
 	
 	<!--<div class="col-sm-4">-->
 	<p>
-	<a href="{% url 'polls:select_story' items.id %}"><img src= {{items.url}} alt="image" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px"> </a>
+	<a href="{% url 'polls:select_story' items.id %}"><img src= {{items.url}} alt="image" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 2px; padding-left:60px"> </a>
 	</p>
-	<br>
-	<p>
+	<p style="text-align: justify;">
 	{{items.text}}
 	</p>
-	
+	<hr>
 	{% endfor %}
 	</div>
 	
@@ -32,6 +36,9 @@
 
 	<!-- form to add new image url -->
 	<div class="col-sm-8">
+		<h3 style="text-align:center">
+			You can also add your own Starting (Base) Image here.
+		</h3>
 	<form class="modal-content" action="{% url 'polls:add_base' %}" method="post" style="padding-top: 10px;padding-bottom: 10px">
 		{% csrf_token %}
 		<div class="container" style="padding-left: 30px">

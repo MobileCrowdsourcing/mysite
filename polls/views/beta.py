@@ -262,7 +262,7 @@ def continue_story(request, story_id=None):
 			new_story.append(image)
 	
 	for image_id in action_list:
-		new_story.append(image_id)
+		new_story.append(int(image_id))
 	last_action_image=ActionImage.objects.get(id=action_list[len(action_list)-1])
 	check_stories = Story.objects.filter(base_image=base_image, last_action_image=last_action_image)
 	found = False

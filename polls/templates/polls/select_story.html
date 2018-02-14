@@ -9,15 +9,19 @@
 <br>
 <h3> Good! You have selected a base image to create your story. Now select from the story chains starting with your base image to continue and from your story.</h3>
 <br>
-	 <form action="{% url 'polls:story_redirect' %}" method="post">
-	  {% csrf_token %}
+	 <div>
+	 	<p>
+	 		These are some of the story elements already created by other users on this site. Pick one of them to continue the story.
+	 	</p>
 	  <div>
-	  	<div class="col-sm-1">
-		<input type="radio" name = "story_id" id="chain0" value=0>
-		</div>
-		<div class="col-sm-11">
-		<img src="{{base_image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px">
-		</div>
+	  	<form action="{% url 'polls:story_redirect' %}" method="post">
+	  		{% csrf_token %}
+			<input type="hidden" name = "story_id" id="chain0" value=0>
+			<div class="col-sm-11">
+			<img src="{{base_image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px">
+			<input style="margin-left:20px" type="submit" value="Go">
+			</div>
+		</form>
 		</div>
 		<br>
 		<br>
@@ -26,14 +30,17 @@
 	<div>
 		{% for key, value in new_dict.items %}
 		<div>
-			<div class="col-sm-1">
-			<input type="radio" name="story_id" id="chain{{key}}" value={{key}}>
-			</div>
+			<form action="{% url 'polls:story_redirect' %}" method="post">
+	  		{% csrf_token %}
+			<input type="hidden" name="story_id" id="chain{{key}}" value={{key}}>
 			<div class="col-sm-11">
 			{% for items in value %}
 			<img src="{{items.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px">
 			{% endfor %}
+			<input style="margin-left:20px" type="submit" value="Go">
 			</div>
+			
+			</form>
 			
 			
 		</div>
@@ -41,7 +48,7 @@
 		<br>
 		{% endfor %}
 	</div>
-	<input type="submit" value="Submit">
+	</div>
 </div>
 
 {% endblock %}

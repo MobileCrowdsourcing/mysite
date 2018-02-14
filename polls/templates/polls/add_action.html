@@ -4,6 +4,11 @@
 {% block content %}
 
 <div style="padding-left: 30px">
+	{% if not action_list %}
+	<p style="font-size:25px; text-align:center">
+		Now we will choose images which depict your idea for the story going forward.
+	</p>
+	{% endif %}
 	<p>
 		<span style="font-size:25px">The chain :</span> 
 	</p>
@@ -27,7 +32,7 @@
 		{% endfor %}
 	{% else %}
 		<p>
-			<span style="font-size:25px">You have not added actions yet. Choose from below to add. </span> 
+			<span style="font-size:20px">You have not added actions yet. Choose from below to add. </span> 
 		</p>
 	{% endif %}
 	<span style="font-size:20px">Select an image to continue the story: </span>
