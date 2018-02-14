@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, ActionImage, BaseImage, Authors
+from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, ActionImage, BaseImage, Authors,StoryText
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -653,6 +653,12 @@ def profile(request):
 
 	with open('polls/store/stories.p', 'rb') as fp:
 		stories = pickle.load(fp)
+	text_story=StoryText.objects.filter(user=request.user)
+	#text_story=[]
+	# for items in user_stories:
+	# 	text=StoryText.objects.filter(story=items)
+	# 	text_story.append(text)
+	#text_story=StoryText.objects.filter(story=user_stories)
 
 	new_dict = {}
 	for item in user_stories:
@@ -670,5 +676,6 @@ def profile(request):
 		'user_log': request.user.is_authenticated,
 		'user': request.user,
 		'stories': new_dict,
+		'text_story':text_story,
 		})
 
