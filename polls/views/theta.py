@@ -42,10 +42,12 @@ def show_stories(request):
 	for item in u_stories:
 		user_stories.append(item)
 	shuffle(user_stories)
+	new_list = []
 	new_dict = {}
 	for item in user_stories:
 		story = item.story
 		story_id = story.id
+		new_list.append(story_id)
 		id_list = stories[story_id]
 		image_list = []
 		image_list.append(BaseImage.objects.get(id=id_list[0]))
@@ -95,6 +97,7 @@ def show_stories(request):
 		'new_dict': new_dict,
 		'other_dict': other_dict,
 		'pop_dict': pop_dict,
+		'new_list': new_list,
 		})
 
 
@@ -209,4 +212,11 @@ def write_story(request, story_id=None):
 			new_story_text = StoryText(user=user, story=story, story_text=story_text, votes=0)
 			new_story_text.save()
 			print("New Story Text Added. ID : " + str(new_story_text.id) + ", text : " + str(new_story_text.story_text))
+			return HttpResponseRedirect(reverse('polls:show_stories'))
+		else:
+			# User has alraedy written some text for this story.
+			old_story_text = check[0]
+			old_story_text.story_text = story_text
+			old_story_text.save()
+			print("Adding to already existing story.")
 			return HttpResponseRedirect(reverse('polls:show_stories'))
