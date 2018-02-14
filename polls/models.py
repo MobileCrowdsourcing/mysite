@@ -121,4 +121,10 @@ class Story(models.Model):
 class Authors(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
+
+class StoryText(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    story_text = models.TextField()
+    votes = models.IntegerField(default=0)

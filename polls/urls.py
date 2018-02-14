@@ -51,4 +51,8 @@ urlpatterns = [
     url(r'add_action/(?P<story_id>[0-9]+)/$', views.add_action, name='add_action'),
     url(r'continue_story/(?P<story_id>[0-9]+)/$', views.continue_story, name='continue_story'),
     url(r'add_success/(?P<story_id>[0-9]+)/$', views.add_success, name='add_success'),
+    url(r'show_stories/$', views.show_stories, name='show_stories'),
+    url(r'work_story/$', views.work_story, name='work_story'),
+    url(r'read_stories/(?P<story_id>[0-9]+)/$', views.read_stories, name='read_stories'),
+    url(r'write_story/(?P<story_id>[0-9]+)/$', views.write_story, name='write_story'),
 ]

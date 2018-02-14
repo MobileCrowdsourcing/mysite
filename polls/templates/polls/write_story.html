@@ -1,0 +1,56 @@
+{% extends 'polls/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div style="padding-left: 30px">
+	<div style="padding-top: 50px">
+	{% for image in image_list %}
+	<img src="{{image.url}}" style="padding-right: 20px; height:200px;width:200px;padding-bottom: 20px" alt="image url">
+	{% endfor %}
+	</div>
+	<div class="col-sm-1">
+	</div>
+	<div class="col-sm-5" id="block1">
+		<h3>
+			Add / Modify Your own story here.
+		</h3>
+		<form action="{% url 'polls:write_story' story_id %}" method="post" id="story_text_form">
+			{% csrf_token %}
+			<input type="submit" value="Submit">
+		</form>
+		<br>
+		<textarea name="story_text_input" rows="4" cols="60" form="story_text_form">
+		{% if user_text %}
+		{{ user_text}}
+		{% else %}
+		Enter Text here.. 
+		{% endif %}
+		</textarea>
+		
+	</div>
+	<div class="col-sm-5" id="block2" style="padding-top:30px">
+		<h3>
+			Showing written texts for this story.
+		</h3>
+		{% if storyTexts %}
+		{% for st in storyTexts %}
+		<div>
+			<p>
+				User : {{ st.user.username }}
+			</p>
+			<p>
+				Text : {{ st.story_text }}
+			</p>
+		</div>
+		<br>
+		{% endfor %}
+		{% else %}
+		<p>
+			There are no story texts written for this story yet.
+		</p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
