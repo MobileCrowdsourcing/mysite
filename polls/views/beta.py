@@ -100,6 +100,8 @@ def make_sequence(request):
 	user = request.user
 	# Showing list of starting images to user here.
 	images = BaseImage.objects.all()
+	if 'action_list' in request.session:
+		del request.session['action_list']
 	return render(request, 'polls/make_sequence.html', {
 		'user': user,
 		'images': images,
@@ -173,9 +175,11 @@ def add_action(request, story_id=None):
 		request.session['error_m'] = 'Please Login First'
 		request.session.modified = True
 		return HttpResponseRedirect(reverse('login_user'))
+
 	print("BASE ID showing")
 	user = request.user
 	story_id = int(story_id)
+
 	# story_id = int(request.POST['story_id'])
 	print('Story ID passed : ' + str(story_id))
 	if story_id == 0:
@@ -200,6 +204,14 @@ def add_action(request, story_id=None):
 	action_images = ActionImage.objects.all()
 	base_id = int(request.session['base_id'])
 	base_image = BaseImage.objects.get(id=base_id)
+	if 'action_list' not in request.session:
+		# User has not added any actions yet.
+		action_image_list = None
+	else:
+		action_list = request.session['action_list']
+		action_image_list = []
+		for action_id in action_list:
+			action_image_list.append(ActionImage.objects.get(id=action_id))
 	return render(request, 'polls/add_action.html', {
 		'user': user,
 		'story': story,
@@ -207,6 +219,7 @@ def add_action(request, story_id=None):
 		'story_id': story_id,
 		'base_image': base_image,
 		'user_log': user.is_authenticated,
+		'action_list': action_image_list,
 		})
 
 
@@ -220,23 +233,24 @@ def continue_story(request, story_id=None):
 		return HttpResponseRedirect(reverse('login_user'))
 
 	user = request.user
-	if request.method != "POST":
-		print('User trying GET')
-		raise Http404("Page Not Found")
+	if 'action_list' in request.session:
+		action_list = request.session['action_list']
+		del request.session['action_list']
+	else:
+		action_list = []
+
 
 	story_id = int(story_id)
 	base_id = request.session['base_id']
 	base_id = int(base_id)
 	base_image = BaseImage.objects.get(id=base_id)
-	action_id = int(request.POST['action_image_id'])
-	action_image = ActionImage.objects.get(id=action_id)
-	print('Story ID : ' + str(story_id) + ', base_id : ' + str(base_id) + ', action_id : ' + str(action_id))
+	print('Story ID : ' + str(story_id) + ', base_id : ' + str(base_id))
 	with open('polls/store/stories.p', 'rb') as fp:
 			stories = pickle.load(fp)
 	if story_id == 0:
 		# User is adding directly to a base image.
 		print('Add directly to Base.')
-		new_story = [base_id, action_id]
+		new_story = [base_id]
 	else:
 		# User is adding to a chain
 		print('Adding to a current story.')
@@ -244,9 +258,11 @@ def continue_story(request, story_id=None):
 		new_story = []
 		for image in story:
 			new_story.append(image)
-		new_story.append(action_id)
-
-	check_stories = Story.objects.filter(base_image=base_image, last_action_image=action_image)
+	
+	for image_id in action_list:
+		new_story.append(image_id)
+	last_action_image=ActionImage.objects.get(id=action_list[len(action_list)-1])
+	check_stories = Story.objects.filter(base_image=base_image, last_action_image=last_action_image)
 	found = False
 	for tup in check_stories:
 		tup_id = tup.id
@@ -263,6 +279,7 @@ def continue_story(request, story_id=None):
 		if found is True:
 			# Same story found.
 			story = Story.objects.get(id=tup.id)
+			print('Story id found : ' + str(tup.id))
 			story.votes = story.votes + 1
 			story.save()
 			check = Authors.objects.filter(story=story, user=user)
@@ -274,7 +291,7 @@ def continue_story(request, story_id=None):
 
 	if found is False:
 		# No story found
-		story = Story(base_image=base_image, last_action_image=action_image, votes=0)
+		story = Story(base_image=base_image, last_action_image=last_action_image, votes=0)
 		story.save()
 		author = Authors(story=story, user=user)
 		author.save()
@@ -283,7 +300,8 @@ def continue_story(request, story_id=None):
 		with open('polls/store/stories.p', 'wb') as fp:
 			pickle.dump(stories, fp)
 
-	return HttpResponseRedirect(reverse('polls:add_success', args=[story.id]))
+	print('Success !')
+	return HttpResponseRedirect(reverse('polls:make_sequence'))
 
 
 def add_success(request, story_id=None):
@@ -295,11 +313,24 @@ def add_success(request, story_id=None):
 		request.session.modified = True
 		return HttpResponseRedirect(reverse('login_user'))
 
+	if request.method != 'POST':
+		print("GET attempted at add_success.")
+		raise Http404("Page not Found.")
+
 	story_id = int(story_id)
 	print('story_id = ' + str(story_id))
+	action_image_id = request.POST['action_image_id']
+	print('Action Image ID : ' + action_image_id)
+	if 'action_list' in request.session:
+		request.session['action_list'].append(action_image_id)
+	else:
+		new_action_list = [action_image_id]
+		request.session['action_list'] = new_action_list
+	request.session.modified=True
 
 	return render(request, 'polls/ask_redirect.html', {
 		'user': request.user,
 		'user_log': request.user.is_authenticated,
 		'story_id': story_id,
+		'action_image_id': action_image_id,
 		})

@@ -5,7 +5,7 @@
 
 <div style="padding-left: 30px">
 	<p>
-		<span style="font-size:25px">The chain so far :</span> 
+		<span style="font-size:25px">The chain :</span> 
 	</p>
 	
 
@@ -18,10 +18,22 @@
 		<img src="{{base_image.url}}" style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px" alt="image url">
 	{% endif %}
 	</p>
-	<span style="font-size:20px">select an image to continue the story: </span>
+	{% if action_list %}
+		<p>
+			<span style="font-size:25px">Actions Added till now  : </span> 
+		</p>
+		{% for images in action_list %}
+		<img src="{{images.url}}" style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px" alt="image url">
+		{% endfor %}
+	{% else %}
+		<p>
+			<span style="font-size:25px">You have not added actions yet. Choose from below to add. </span> 
+		</p>
+	{% endif %}
+	<span style="font-size:20px">Select an image to continue the story: </span>
 	<p>
 		
-		<form action="{% url 'polls:continue_story' story_id%}" method="post">
+		<form action="{% url 'polls:add_success' story_id%}" method="post">
 		{% csrf_token %}
 		
 		{% for items in action_images %}
