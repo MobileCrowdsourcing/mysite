@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div style="padding-left:30px; padding-top:50px">
+<div style="padding-left:40px; padding-top:50px">
 
 <br>
 
@@ -22,21 +22,22 @@
 	</div>	
 
 		{% if base_images %}
-		<p>
+	
 			<!-- Showing images here. -->
-			{% for image in base_images %}
 			<div class="row">
-				<div class="col-sm-4">
-				<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px;position: inline">
-				</div>
-				<div class="col-sm-8">
+			{% for image in base_images %}
+			
+				<div class="col-sm-4" style="height:300px">
+				<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:10px;position: inline">
+				
+				
 					<span style ="padding-right: 250px">{{ image.text }}</span>
 				
 			</div>
-			</div>
+			
 			{% endfor %}
-			</p>
-
+			</div>
+			
 			<br>
 
 			<span style="padding-left: 250px; font-size: 30px"><a href="{% url 'polls:add_base' %}">Click here</a> to start a story.</span>
@@ -81,9 +82,26 @@
 		
 		</div>
 		<span style="padding-left: 250px; font-size: 30px"> Click <a href="{% url 'polls:make_sequence' %}">here</a> to continue a story.</span>
-	</div>
 
+		<br>
+		<br>
+		<br>
+		<br><br><br>
+
+		<span style="font-size:30px">Your written stories and their votes are:</span>
+		<br>
+		<br>
+		<div>
+		{% for items in text_story %}
+		<span style="font-size: 18px">{{items.story_text}}</span> 
+		<span style="font-size:22px;margin-left: 60px">Votes are {{items.votes}}</span>
+		<br>
+		<br>
+		{% endfor %}
+		</div>
 </div>
+
+
 
 
 {% endblock %}
