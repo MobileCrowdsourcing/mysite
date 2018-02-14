@@ -5,7 +5,7 @@
 
 <div style="padding-left: 30px">
 	<p>
-		Adding to this story : 
+		<span style="font-size:25px">The chain so far :</span> 
 	</p>
 	
 
@@ -18,19 +18,20 @@
 		<img src="{{base_image.url}}" style="padding-right: 20px; height:300px;width:300px;padding-bottom: 20px" alt="image url">
 	{% endif %}
 	</p>
-
+	<span style="font-size:20px">select an image to continue the story: </span>
 	<p>
 		
 		<form action="{% url 'polls:continue_story' story_id%}" method="post">
 		{% csrf_token %}
-		Action Images
+		
 		{% for items in action_images %}
 		<img src="{{items.url}}" style="padding-right: 5px; height:300px;width:350px;padding-bottom: 20px; padding-left:60px">
 		<input type="radio" name = "action_image_id" id="action_image{{items.id}}" value={{items.id}}>
 		{% endfor %}
-		<input type="submit" value="Submit">
+		
 
 	</p>
+	<input type="submit" value="Submit">
 	
 </div>
 
