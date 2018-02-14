@@ -32,7 +32,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Full-width input fields */
 input[type=text], input[type=password] {
-    width: 40%;
+    width: 400px;
     padding: 20px 20px;
     margin: 8px 0;
     display: block;
@@ -51,7 +51,7 @@ button {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 400px;
 }
 
 button:hover {
@@ -133,7 +133,7 @@ span.psw {
                         <li><a href="{% url 'home' %}" style="padding-top:10px">Home</a></li>
                         <li><a href="{% url 'polls:add_base' %}" style="padding-top:10px">Start A Story</a></li>
                         <li><a href="{% url 'polls:make_sequence' %}" style="padding-top:10px">Continue A Story</a></li>
-                        <li><a href="{% url 'polls:show_stories' %}" style="padding:top:10px">Scribble</a></li>
+                        <li><a href="{% url 'polls:show_stories' %}" style="padding:top:10px">Publish story</a></li>
                         {% if user_log %}
                         <li><a href="{% url 'logout_user' %}" style="padding-top:10px" onclick="ShowAlert()">Logout</a></li>
                         <li><a href="{% url 'profile' %}" style="padding-top:10px">My Profile</a></li>

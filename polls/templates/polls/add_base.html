@@ -5,23 +5,48 @@
 
 <div style="padding-left:30px">
 	<h3>
-		Add an image url and text here to create a BaseImage.
+		Add an image url and text here to create a base image.
 	</h3>
+	<div class="row">
+
+	<!--already available base images -->
+	<div class="col-sm-4">
+	<!--<div class="row" style="padding-right: 30px">-->
+
+	{% for items in base %}
+	
+	<!--<div class="col-sm-4">-->
 	<p>
-		Form with URL and Text input fields.
+	<a href="{% url 'polls:select_story' items.id %}"><img src= {{items.url}} alt="image" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px"> </a>
 	</p>
-	<form class="modal-content" action="{% url 'polls:add_base' %}" method="post" style="padding-top: 50px;padding-bottom: 50px">
+	<br>
+	<p>
+	{{items.text}}
+	</p>
+	
+	{% endfor %}
+	</div>
+	
+
+
+
+	<!-- form to add new image url -->
+	<div class="col-sm-8">
+	<form class="modal-content" action="{% url 'polls:add_base' %}" method="post" style="padding-top: 10px;padding-bottom: 10px">
 		{% csrf_token %}
-		<div class="container">
+		<div class="container" style="padding-left: 30px">
 		<label for="url"><b>Image URL</b></label>
-		<input type="text" placeholder="Enter Image URL here." name="url" required>
+		<input type="text" placeholder="Enter Image URL here." name="url" required style="width:380px">
 
 		<label for="imageText"><b>Image Scene Description</b></label>
-		<input type="text" placeholder="Enter a brief description of the scene." name="imageText" required>
+		<input type="text" placeholder="Enter a brief description of the scene." name="imageText" required style="width:380px">
 
-		<button type="submit" style="width:40%">Submit</button>
+		<button type="submit" style="width:380px">Submit</button>
 		</div>
 	</form>
+	
+	</div>
+	</div>
 </div>
 
 

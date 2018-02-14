@@ -74,6 +74,7 @@ def add_base(request):
 		return HttpResponseRedirect(reverse('login_user'))
 
 	user = request.user
+	base = BaseImage.objects.all()
 	if request.method == "POST":
 		url = request.POST['url']
 		text = request.POST['imageText']
@@ -85,6 +86,7 @@ def add_base(request):
 		return render(request, 'polls/add_base.html', {
 			'user': user,
 			'user_log': request.user.is_authenticated,
+			'base':base
 			})
 
 

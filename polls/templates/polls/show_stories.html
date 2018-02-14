@@ -15,28 +15,18 @@
 	<div>
 		<input type="radio" name="story_id" id="story{{key}}" value={{key}} required>
 		{% for image in value %}
-		<img src="{{image.url}}" style="padding-right: 20px; height:200px;width:200px;padding-bottom: 20px" alt="image url">
+		<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left: 60px" alt="image url">
 		{% endfor %}
 	</div>
 	{% endfor %}
 	<input type="submit" value="Submit">
 	</form>
-	<br>
-	<h3>
-		Other Stories
-	</h3>
-	<form action="{% url 'polls:work_story' %}" method="post">
-	{% csrf_token %}		
-	{% for key, value in other_dict.items %}
-	<div>
-		<input type="radio" name="story_id" id="story{{key}}" value={{key}} required>
-		{% for image in value %}
-		<img src="{{image.url}}" style="padding-right: 20px; height:200px;width:200px;padding-bottom: 20px" alt="image url">
-		{% endfor %}
-	</div>
-	{% endfor %}
-	<input type="submit" value="Submit">
-	</form>
+	
+
+
+	
+	
+
 	<br>
 	<h3>
 		Recommended Stories
@@ -47,7 +37,27 @@
 	<div>
 		<input type="radio" name="story_id" id="story{{key}}" value={{key}} required>
 		{% for image in value %}
-		<img src="{{image.url}}" style="padding-right: 20px; height:200px;width:200px;padding-bottom: 20px" alt="image url">
+		<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px" alt="image url">
+		{% endfor %}
+	</div>
+	{% endfor %}
+	<input type="submit" value="Submit">
+	</form>
+
+
+
+
+	<br>
+	<h3>
+		Other Stories
+	</h3>
+	<form action="{% url 'polls:work_story' %}" method="post">
+	{% csrf_token %}		
+	{% for key, value in other_dict.items %}
+	<div>
+		<input type="radio" name="story_id" id="story{{key}}" value={{key}} required>
+		{% for image in value %}
+		<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px" alt="image url">
 		{% endfor %}
 	</div>
 	{% endfor %}
