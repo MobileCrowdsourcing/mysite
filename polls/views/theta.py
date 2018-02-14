@@ -220,3 +220,25 @@ def write_story(request, story_id=None):
 			old_story_text.save()
 			print("Adding to already existing story.")
 			return HttpResponseRedirect(reverse('polls:show_stories'))
+
+
+def add_action_image(request, story_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	user = request.user
+	if request.method != 'POST':
+		print('User trying GET, please check')
+		raise Http404('Page not Found')
+
+	action_url = request.POST['url']
+	print('Action URL : ' + action_url)
+	action_image = ActionImage(url=action_url)
+	action_image.save()
+	print("New Action Image Added")
+	return HttpResponseRedirect(reverse('polls:add_action', args=[int(story_id)]))
