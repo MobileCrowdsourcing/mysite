@@ -9,15 +9,19 @@
 <br>
 
 	<h2 style="text-align: center">
-		Welcome {{ user.username }} !
+		<b>Welcome {{ user.username }}!</b>
 	</h2>
-	<br>
+	<p>
+		Welcome to your Profile. You can see your added Base Images, view your added stories and scripts here.
+	</p>
 	<br>
 	<div>
 		<h3>
-			Your uploaded story bases:
+			<u>Your Uploaded Story Bases</u>
 		</h3>
-		<br>
+		<p>
+		You can see your uploaded images (Base Images) here. To view the stories beginning with the images, click on them.
+	</p>
 		<br>
 	</div>	
 
@@ -27,78 +31,84 @@
 			<div class="row">
 			{% for image in base_images %}
 			
-				<div class="col-sm-4" style="height:300px">
-				<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:10px;position: inline">
-				
-				
-					<span style ="padding-right: 250px">{{ image.text }}</span>
-				
-			</div>
-			
+				<div class="col-sm-4">
+					<div>
+					<a href="{% url 'polls:select_story' image.id %}">
+				<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:10px;position: inline"></a>
+				</div>
+				<span style ="padding-right: 250px"><i>{{ image.text }}</i></span>
+				</div>
+
 			{% endfor %}
 			</div>
-			
-			<br>
-
-			<span style="padding-left: 250px; font-size: 30px"><a href="{% url 'polls:add_base' %}">Click here</a> to start a story.</span>
-		
-		{% else %}
+			{% else %}
 		<p>
 			You haven't created any new stories yet. <a href="{% url 'polls:add_base' %}">Click here</a> to add a story.
 		</p>
 		{% endif %}
 		
+			<p style="text-align:center;"">
+			<span style="font-size: 15px"><a href="{% url 'polls:add_base' %}"><u>Click here</a> to go back and start a new Story.</u></span>
+			</p>
+		
+		
 		<br>
+		<h3><u>Your Written Stories and Their Votes</u></h3>
+		<p>
+			Here you can keep a track of all the scripts you have written for stories. You can view scripts written by other users for them too.
+		</p>
 		<br>
-
+		<div>
+		{% for items in text_story %}
+		
+		<p>
+		<span style="font-size: 18px"><i>{{items.story_text}}</i></span> <a href="{% url 'polls:read_stories' items.story.id %}">View Story</a>
+		</p>
+		<p>
+		<span style="font-size:22px;">Votes are {{items.votes}}</span>
+		</p>
+		<br>
+		{% endfor %}
+		</div>
 		<!-- showing story chains created by user -->
 		<div>
 		{% if stories %}
-		<h3>Your created stories are:</h3>
-
 		<br>
+		<h3><u>Created Stories</u></h3>
+		<p>
+			Your added stories. All the stories for which you have added images are shown here.
+		</p>
+		<p>
+			To see if there are any written scripts for them, or to write scripts for these stories, click on "Scripts" for the story.
+		</p>
 		<br>
-		
 
 		<ul>
 		 {% for key, value in stories.items %}
 		 <li>
 		
-			
-			{% for items in value %}
-			<img src="{{items.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px">
-			{% endfor %}
-		
+			<form action="{% url 'polls:work_story' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="story_id" value="{{key}}">
+				{% for items in value %}
+				<img src="{{items.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px">
+				{% endfor %}
+				<input style="margin-left:20px" type="submit" value="Scripts">
+			</form>
 		</li>
 		{% endfor %}
 		</ul>
 
 		{% else %}
-			You have not formed any story chains
+			You have not formed any story chains yet.
 		{% endif %}
 
-
-		<br>
-		
 		</div>
-		<span style="padding-left: 250px; font-size: 30px"> Click <a href="{% url 'polls:make_sequence' %}">here</a> to continue a story.</span>
+		<br>
+		<p style="text-align:center;"">
+		<span style="text-align:center; font-size: 15px"><u>To continue a story by adding images, click <a href="{% url 'polls:make_sequence' %}">here.</a></u></span>
+		</p>
 
-		<br>
-		<br>
-		<br>
-		<br><br><br>
-
-		<span style="font-size:30px">Your written stories and their votes are:</span>
-		<br>
-		<br>
-		<div>
-		{% for items in text_story %}
-		<span style="font-size: 18px">{{items.story_text}}</span> 
-		<span style="font-size:22px;margin-left: 60px">Votes are {{items.votes}}</span>
-		<br>
-		<br>
-		{% endfor %}
-		</div>
 </div>
 
 

@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.template import loader
-from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage, Story, Authors
+from polls.models import Question, Choice, Scenario, Text_Input, Link, ImageScenario, ImageLink, ImageChain, BaseImage, ActionImage, Story, Authors, Feedback
 from polls.models import StoryText
 from polls.extra import getStory
 from django.views import generic
@@ -242,3 +242,27 @@ def add_action_image(request, story_id=None):
 	action_image.save()
 	print("New Action Image Added")
 	return HttpResponseRedirect(reverse('polls:add_action', args=[int(story_id)]))
+
+
+def get_feedback(request):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	user = request.user
+	if request.method == 'GET':
+		return render(request, 'polls/get_feedback.html', {
+			'user_log': user.is_authenticated,
+			'user': user
+			})
+	else:
+		feedback_text = request.POST['feedback_text']
+		feedback = Feedback(user=user, feedback_text=feedback_text)
+		feedback.save()
+		return render(request, 'polls/thank_you.html', {
+			'user_log': user.is_authenticated,
+			})

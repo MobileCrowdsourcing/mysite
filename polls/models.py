@@ -128,3 +128,8 @@ class StoryText(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     story_text = models.TextField()
     votes = models.IntegerField(default=0)
+
+
+class Feedback(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    feedback_text = models.TextField()

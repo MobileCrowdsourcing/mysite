@@ -24,7 +24,12 @@
 		{% csrf_token %}
 		{% for st in storyTexts %}
 		<div>
-			<input type="radio" name="story_text_id" id="st{{st.id}}" value={{st.id}}>	User : {{ st.user.username }}
+		{% if st.user == user %}
+		(Your Story)
+		{% else %}
+			<input type="radio" name="story_text_id" id="st{{st.id}}" value={{st.id}}>
+		{% endif %}	
+		User : {{ st.user.username }}
 			<p>
 				Text : {{ st.story_text }}
 			</p>

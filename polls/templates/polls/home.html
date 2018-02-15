@@ -11,8 +11,6 @@
 	{% endif %}
 		<p>
 			<br>
-			<br>
-			<br>
 		</p>
 	</div>
 
@@ -23,11 +21,51 @@
 		<p>
 			A site where you make stories out of images, and vote on stories made by other people.
 		</p>
+		{% if user_log %}
 		<p>
 			Click on "Start a Story" to get started.
 		</p>
+		{% else %}
+		<p>
+			<a href="{% url 'login_user' %}">Login</a> to get started. Don't have an account ? <a href="{% url 'sign_up' %}">Sign Up.</a>
+		</p>
+		{% endif %}
 	</div>
-	<div style="padding-left:30px">
+	
+	<div class="col-sm-1">
+	</div>
+	<div class="col-sm-5" id="block1">
+		<div>
+			<a href="{% url 'polls:add_base' %}" style="padding-top:10px; color: black">
+			<h1 style="text-align: center">Start a story</h1>
+			</a>
+			<br>
+			<br>
+			<a href="{% url 'polls:add_base' %}" style="padding-top:10px">
+				<img src="{% static 'polls/images/pen_paper.jpg' %}" style="height:150px;width:500px;padding-left: 100px"/>
+			</a>
+		</div>
+		<div>
+			<a href="{% url 'polls:make_sequence' %}" style="padding-top:10px; color:black">
+		<h1 style="text-align: center">Continue a story</h1>
+		</a>
+		<br>
+		<br>
+		<a href="{% url 'polls:make_sequence' %}" style="padding-top:10px">
+			<img src="{% static 'polls/images/editStory.jpg' %}" style="height:150px;width:500px ;padding-left:70px"/>
+		</a>
+		</div>
+		<div>
+			<h1 style="text-align:center; color:black">
+				<a href="{% url 'polls:show_stories' %}">Write for a story</a>
+			</h1>
+		</div>
+	</div>
+	<div class="col-sm-5" id ="block2">
+		<h2>
+			Users with highest votes for stories.
+		</h2>
+		<div style="padding-left:30px; padding-top:40px; font-size:20px">
 		<p>
 			{% for items in my_users %}
 			<p>
@@ -36,28 +74,6 @@
 			{% endfor %}
 		</p>
 	</div>
-	<div class="col-sm-1">
-	</div>
-	<div class="col-sm-5" id="block1">
-	<a href="{% url 'polls:add_base' %}" style="padding-top:10px; color: black">
-	<h1 style="text-align: center">Start a story</h1>
-	</a>
-	<br>
-	<br>
-	<a href="{% url 'polls:add_base' %}" style="padding-top:10px">
-		<img src="{% static 'polls/images/pen_paper.jpg' %}" style="height:400px;width:500px;padding-left: 100px"/>
-	</a>
-	</div>
-	<div class="col-sm-5" id ="block2">
-
-	<a href="{% url 'polls:make_sequence' %}" style="padding-top:10px; color:black">
-	<h1 style="text-align: center">Continue a story</h1>
-	</a>
-	<br>
-	<br>
-	<a href="{% url 'polls:make_sequence' %}" style="padding-top:10px">
-		<img src="{% static 'polls/images/editStory.jpg' %}" style="height:400px;width:500px ;padding-left:70px"/>
-	</a>
 	</div>
 	<div class="col-sm-1">
 	</div>
