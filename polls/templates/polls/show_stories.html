@@ -6,6 +6,24 @@
 
 <div style="padding-left: 30px">
 	
+	<div>
+		<h2 style="text-align: center; padding-top:40px">
+			This is where you start writing for your stories.
+		</h2>
+		
+		<p>
+			Pick one of the chains you have created, to write a story. Once you click one of them, you will also see the written pieces by other users for the same story.
+		</p>
+		<p>
+			Use them to get more ideas about your story, and write accordingly.
+		</p>
+		<p>
+			NOTE: Other users will vote on which written script suits the image story best. Best of luck!
+		</p>
+		<h3 style="text-align: center; padding-right:30px">
+			 To read, and vote for, other stories, click <a href="#other">here.</a>
+		</h3>
+	</div>
 	<h3>
 		Stories you can add text to
 	</h3>
@@ -33,7 +51,9 @@
 	<h3>
 		Recommended Stories
 	</h3>
-	
+	<p>
+		These are the top stories on this site. Pick up one of them to see if you can vote for them or if you wrote them!
+	</p>
 	{% for key, value in pop_dict.items %}
 	<div>
 		<form action="{% url 'polls:work_story' %}" method="post">
@@ -52,10 +72,19 @@
 
 
 	<br>
-	<h3>
+	<h3 id="other">
 		Other Stories
 	</h3>
-			
+	<p>
+		These are stories which are not created by you. You can view the scripts written for these stories, and vote for the ones you like.
+		The highest voted stories get published on the leaderboard.
+	</p>
+	<p>
+		You can also use this opportunity to read these stories an get ideas about growing them further when you add images.
+	</p>
+	<p>
+		Happy Story Making ! :)
+	</p>
 	{% for key, value in other_dict.items %}
 	<div>
 		<form action="{% url 'polls:work_story' %}" method="post">
