@@ -56,4 +56,6 @@ urlpatterns = [
     url(r'read_stories/(?P<story_id>[0-9]+)/$', views.read_stories, name='read_stories'),
     url(r'write_story/(?P<story_id>[0-9]+)/$', views.write_story, name='write_story'),
     url(r'add_action_image/(?P<story_id>[0-9]+)/$', views.add_action_image, name='add_action_image'),
+  #  url(r'add_action/(?P<story_id>[0-9]+)/own_image/$', views.add_action_image, name='add_action_image'),
+    
 ]

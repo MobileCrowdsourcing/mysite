@@ -32,7 +32,7 @@
 		{% endfor %}
 	{% else %}
 		<p>
-			<span style="font-size:20px">You have not added actions yet. Choose from below to add. </span> 
+			<span style="font-size:20px">You have not added actions yet. Choose from below to add. Or if You want to add your own image to continue the chain click <a href="#own_image">here</a> </span> 
 		</p>
 	{% endif %}
 	<span style="font-size:20px">Select an image to continue the story: </span>
@@ -48,8 +48,9 @@
 		
 
 	</p>
+	<div id="own_image">
 	<input type="submit" value="Submit">
-	</form>
+	<form>
 	<div style="padding-top:20px">
 		<p style="font-size:20px">
 			Did not find a suitable image ? You can add your own here : 
@@ -57,9 +58,16 @@
 		<form action="{% url 'polls:add_action_image' story_id %}" method="post">
 		{% csrf_token %}
 			<input type="text" name="url" placeholder="Enter Image URL here">
-			<input type="submit" value="Submit">
+			<input type="submit" value="Submit" onclick="AddSuccess()">
 		</form>
 	</div>
 </div>
-
+</form>
+</div>
+<script type="text/javascript">
+	function AddSuccess()
+        {
+            alert("New Image Added..");
+        }
+</script>
 {% endblock %}
