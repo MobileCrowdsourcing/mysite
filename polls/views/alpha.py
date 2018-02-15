@@ -68,8 +68,22 @@ def home_page(request):
 				'error_m': error_m,
 				'user_log': request.user.is_authenticated,
 				})
+	users=User.objects.all()
+	my_users={}
+	for items in users:
+		my_users[items]=0
+
+	stories=StoryText.objects.all()
+	for items in stories:
+		author=items.user
+		my_users[author]=my_users[author]+items.votes
+	import operator
+	sorted_list = sorted(my_users.items(), key=operator.itemgetter(1), reverse=True)
+
 	return render(request, 'polls/home.html', {
 		'user_log': request.user.is_authenticated,
+		'user': request.user,
+		'my_users': sorted_list,
 		})
 
 

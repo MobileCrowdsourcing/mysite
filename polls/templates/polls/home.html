@@ -27,6 +27,15 @@
 			Click on "Start a Story" to get started.
 		</p>
 	</div>
+	<div style="padding-left:30px">
+		<p>
+			{% for items in my_users %}
+			<p>
+				{{ items.0 }} has {{ items.1 }} votes.
+			</p>
+			{% endfor %}
+		</p>
+	</div>
 	<div class="col-sm-1">
 	</div>
 	<div class="col-sm-5" id="block1">
