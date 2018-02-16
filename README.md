@@ -15,7 +15,7 @@ The server application has been written on [Django](https://www.djangoproject.co
 
 ## Idea
 
-The idea behind this platform is to use a crowd (check definition : [Crowdsourcing](https://en.wikipedia.org/wiki/Crowdsourcing) to perform creative tasks.
+The idea behind this platform is to use a crowd (check definition : [Crowdsourcing](https://en.wikipedia.org/wiki/Crowdsourcing)) to perform creative tasks.
 The "task" we make them perform here is to create their own stories out of images.
 Image chains linked by users can be seen, and grown, by other users, thus leading to multiple stories from an image.
 Our site starts off with some images of its own. It further enables people to add their own images according to their choice.
