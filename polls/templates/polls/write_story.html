@@ -6,6 +6,11 @@
 
 <div style="padding-left: 30px">
 	<div style="padding-top: 50px">
+		<div>
+			<p style="text-align:center">
+			Base for script : {{ base_image.text }}
+			</p>
+		</div>
 	{% for image in image_list %}
 	<img src="{{image.url}}" style="padding-right: 5px; height:150px;width:200px;padding-bottom: 20px; padding-left:60px" alt="image url">  
 	{% endfor %}

@@ -200,6 +200,7 @@ def write_story(request, story_id=None):
 			'story_id': story_id,
 			'image_list': image_list,
 			'user_text': user_text,
+			'base_image': story.base_image,
 			})
 	else:
 		story_id = int(story_id)
@@ -265,4 +266,5 @@ def get_feedback(request):
 		feedback.save()
 		return render(request, 'polls/thank_you.html', {
 			'user_log': user.is_authenticated,
+			'feedback': feedback,
 			})

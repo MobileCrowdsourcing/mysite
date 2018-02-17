@@ -5,12 +5,24 @@
 {% block content %}
 
 <div style="padding-left:30px">
+	{% if feedback %}
 	<h2>
 		Thank You for your feedback.
 	</h2>
 	<p>
 		<a href="{% url 'home' %}">Click here</a> to go back.
 	</p>
+	{% else %}
+	<h2>
+		Thank you for your contribution.
+	</h2>
+	<p style="font-size:20px">
+		To add a text for this story, <a href="{% url 'polls:write_story' story_id %}">Click here.</a>
+		<p>
+		<a href="{% url 'home' %}">Click here</a> to back to Home.
+		</p>
+ 	</p>
+ 	{% endif %}
 </div>
 
 {% endblock %}

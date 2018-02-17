@@ -303,7 +303,22 @@ def continue_story(request, story_id=None):
 			pickle.dump(stories, fp)
 
 	print('Success !')
-	return HttpResponseRedirect(reverse('polls:make_sequence'))
+	return HttpResponseRedirect(reverse('polls:continue_success', args=[story.id]))
+
+
+def continue_success(request, story_id=None):
+	if request.user.is_authenticated:
+		print("Logged in as " + str(request.user.username))
+	else:
+		print("Redirecting..")
+		request.session['error_m'] = 'Please Login First'
+		request.session.modified = True
+		return HttpResponseRedirect(reverse('login_user'))
+
+	return render(request, 'polls/thank_you.html', {
+		'user_log': request.user.is_authenticated,
+		'story_id': story_id,
+		})
 
 
 def add_success(request, story_id=None):
@@ -323,6 +338,7 @@ def add_success(request, story_id=None):
 	print('story_id = ' + str(story_id))
 	action_image_id = request.POST['action_image_id']
 	print('Action Image ID : ' + action_image_id)
+	action_image_id = int(action_image_id)
 	if 'action_list' in request.session:
 		request.session['action_list'].append(action_image_id)
 	else:

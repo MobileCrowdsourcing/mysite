@@ -16,17 +16,17 @@
 
 	<div style="text-align: center">
 		<h1>
-			Welcome To SourceStory!
+			Welcome To Anansi!
 		</h1>
 		<p>
 			A site where you make stories out of images, and vote on stories made by other people.
 		</p>
 		{% if user_log %}
 		<p>
-			Click on "Start a Story" to get started.
+			Hello <a href="{% url 'profile' %}">{{ user.username }}.</a> Click on "Start a Story" to get started.
 		</p>
 		{% else %}
-		<p>
+		<p style="font-size:20px">
 			<a href="{% url 'login_user' %}">Login</a> to get started. Don't have an account ? <a href="{% url 'sign_up' %}">Sign Up.</a>
 		</p>
 		{% endif %}
@@ -57,7 +57,7 @@
 		</div>
 		<div>
 			<h1 style="text-align:center; color:black">
-				<a href="{% url 'polls:show_stories' %}">Write for a story</a>
+				<a href="{% url 'polls:show_stories' %}" style="color:black">Write for a story</a>
 			</h1>
 		</div>
 	</div>
