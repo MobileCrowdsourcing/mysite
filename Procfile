@@ -1,2 +1,2 @@
 web: gunicorn anasi.wsgi
-web: gunicorn anasi:app
+web: gunicorn mysite:app
