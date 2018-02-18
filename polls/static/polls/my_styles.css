@@ -21,14 +21,16 @@
 #block1
 {
 	background-color:#418cf4;
-	height:600px;
+	height:100%;
+    padding-left:30%;
+    width:70%;
 
 }
 
 #block2
 {
 background-color:#8841f4;
-	height:600px;
+	height:100%;
 }
 
 #images
