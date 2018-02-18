@@ -27,3 +27,26 @@ def getStory(story_id):
 		image_list.append(ActionImage.objects.get(id=id_list[i]))
 
 	return image_list
+
+
+def getPlot():
+	with open('polls/store/stories.p', 'rb') as fp:
+		stories = pickle.load(fp)
+
+	print(stories)
+	plot = {}
+	for key in stories:
+		image_list = stories[key]
+		size = len(image_list)
+		if size in plot:
+			plot[size] = plot[size] + 1
+		else:
+			plot[size] = 1
+
+	size_list = []
+	count_list = []
+	for key in plot:
+		size_list.append(key)
+		count_list.append(plot[key])
+
+	return size_list, count_list
