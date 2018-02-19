@@ -27,3 +27,27 @@ def getStory(story_id):
 		image_list.append(ActionImage.objects.get(id=id_list[i]))
 
 	return image_list
+
+
+def getVotes():
+	with open('polls/store/stories.p', 'rb') as fp:
+		stories = pickle.load(fp)
+
+	my_dict = {}
+	for key in stories:
+		size = len(stories[key])
+		temp = Story.objects.get(id=int(key)).votes
+		print('temp = ' + str(temp))
+		votes = temp + 1
+		if size in my_dict:
+			my_dict[size] = my_dict[size] + votes
+		else:
+			my_dict[size] = votes
+
+	id_list = []
+	vote_list = []
+	for key in my_dict:
+		id_list.append(key)
+		vote_list.append(my_dict[key])
+
+	return id_list, vote_list
