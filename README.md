@@ -12,6 +12,9 @@ Although Django uses port 8000 by default, you can specify your Port of choice b
 
 The server application has been written on [Django](https://www.djangoproject.com/).
 
+The project is deployed on an experimental basis on the URL : 
+   http://crowdproject.pythonanywhere.com
+   
 
 ## Idea
 
